@@ -3,6 +3,7 @@
 
 int main(int argc, char *argv[])
 {
+	//even testen
 	Data::getInstance().initializeDefines(argv);
 	splitLicensePlate* makeSplit = new splitLicensePlate();
 	makeSplit->ProcessImage();
