@@ -30,6 +30,18 @@
     <ClInclude Include="GlobalDefines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="imageLib\Image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imageLib\ImageGray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imageLib\ImageLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imageLib\ImageRGB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OCR.cpp">
@@ -39,6 +51,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="charHistogram.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="imageLib\Image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="imageLib\ImageGray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="imageLib\ImageLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="imageLib\ImageRGB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

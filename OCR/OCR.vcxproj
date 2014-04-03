@@ -41,15 +41,15 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\libs\corona-1.0.2-vc6\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\libs\corona-1.0.2-vc6\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\libs\imageLib\include;C:\libs\corona-1.0.2-vc6\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\libs\imageLib\lib;C:\libs\corona-1.0.2-vc6\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -58,7 +58,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>lib\corona.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lib\corona.lib;lib\jpeg.lib;lib\libpng.lib;lib\LibTimer.lib;lib\zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -84,11 +84,19 @@
   <ItemGroup>
     <ClInclude Include="charHistogram.h" />
     <ClInclude Include="GlobalDefines.h" />
+    <ClInclude Include="imageLib\Image.h" />
+    <ClInclude Include="imageLib\ImageGray.h" />
+    <ClInclude Include="imageLib\ImageLoader.h" />
+    <ClInclude Include="imageLib\ImageRGB.h" />
     <ClInclude Include="OCR.h" />
     <ClInclude Include="splitLicensePlate.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="charHistogram.cpp" />
+    <ClCompile Include="imageLib\Image.cpp" />
+    <ClCompile Include="imageLib\ImageGray.cpp" />
+    <ClCompile Include="imageLib\ImageLoader.cpp" />
+    <ClCompile Include="imageLib\ImageRGB.cpp" />
     <ClCompile Include="OCR.cpp" />
     <ClCompile Include="splitLicensePlate.cpp" />
   </ItemGroup>

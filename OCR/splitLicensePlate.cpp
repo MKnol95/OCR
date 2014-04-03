@@ -4,7 +4,6 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <Windows.h>
 #include "GlobalDefines.h"
 #include <memory.h>
 
@@ -38,6 +37,7 @@ int* splitLicensePlate::getSplitCSVSplit()
 
 void splitLicensePlate::ProcessImage()
 {
+	const int kentGrote = 8;													/////// kenteken grooteee <---- hierrrrr
 	for (int i = 0; i < width; i++){
 		for (int j = 0; j < height; j++){
 			int xMatrix = (i * 3);
@@ -48,22 +48,22 @@ void splitLicensePlate::ProcessImage()
 			}
 		}
 	}
-	int borderLeft[37];
-	int borderRight[37];
+	int borderLeft[kentGrote];
+	int borderRight[kentGrote];
 	int countL = 0, countR = 0;
 	for (int i = 0; i < width; i++){
-		if (splitCSVSplit[i] != 0 && splitCSVSplit[i - 1] == 0)
+		if (splitCSVSplit[i] != 0 && splitCSVSplit[i - 1] == 0) // vergelijking met de pixel ervoor.
 		{
 			borderLeft[countL] = i;
 			countL++;
 		}
-		else if (splitCSVSplit[i] != 0 && splitCSVSplit[i + 1] == 0)
+		else if (splitCSVSplit[i] != 0 && splitCSVSplit[i + 1] == 0) // vergelijking mer de pixel ernaa
 		{
 			borderRight[countR] = i + 1;
 			countR++;
 		}
 	}
-	for (int z = 0; z < 37; z++){
+	for (int z = 0; z < kentGrote; z++){
 		int splitWidth = borderRight[z] - borderLeft[z];
 		char buffert[20];
 		splitImage = corona::CreateImage(splitWidth, originalImage->getHeight(), corona::PF_R8G8B8);
@@ -76,7 +76,6 @@ void splitLicensePlate::ProcessImage()
 			for (int j = 0; j < height; j++){
 				for (int k = 0; k < 3; k++)
 				{
-					//int xSplit = (i*3);
 					int xSplit = (i - borderLeft[z]) * 3;
 					int ySplit = (j * (splitWidth * 3));
 					int xOriginal = (i * 3);
@@ -96,7 +95,7 @@ void splitLicensePlate::WriteCSV()
 	splitCSV.open((Data::getInstance().getPath() + "split_" + Data::getInstance().getFile() + "_histogram.csv").c_str());
 	for (int i = 0; i < width; i++)
 	{
-		float normalized = ((float)splitCSVSplit[i]);// / (float)imageSurface);
+		float normalized = ((float)splitCSVSplit[i]);
 		splitCSV << i << ";" << normalized << "\n";
 	}
 	splitCSV.close();
