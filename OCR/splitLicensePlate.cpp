@@ -37,7 +37,7 @@ int* splitLicensePlate::getSplitCSVSplit()
 
 void splitLicensePlate::ProcessImage()
 {
-	const int kentGrote = 8;													/////// kenteken grooteee <---- hierrrrr
+	const int kentGrote = 8;									/////// kenteken grooteee <---- hierrrrr
 	for (int i = 0; i < width; i++){
 		for (int j = 0; j < height; j++){
 			int xMatrix = (i * 3);
