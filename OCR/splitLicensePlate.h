@@ -4,21 +4,24 @@
 #include <string>
 #include <fstream>
 #include <memory>
+#include "imageLib\ImageGray.h"
+
+using namespace ImageLib;
 
 class splitLicensePlate
 {
 private:
-	corona::Image *originalImage, *splitImage;
-	byte *originalPixels, *splitPixels;
+	std::unique_ptr<ImageGray> &image;
+
 	std::ofstream splitCSV;
 	int imageSurface, height, width;
 	int splitCSVSplit[2000];
 public:
-	splitLicensePlate();
+	splitLicensePlate(std::unique_ptr<ImageGray>& img);
 	~splitLicensePlate();
 	int* getSplitCSVSplit();
 	corona::Image* getImageData();
-	void ProcessImage();
+	std::vector<ImageGray> ProcessImage();
 	void WriteCSV();
 };
 

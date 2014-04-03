@@ -1,5 +1,6 @@
 #include "splitLicensePlate.h"
 #include "OCR.h"
+#include "imageLib\ImageGray.h"
 #include <corona.h>
 #include <iostream>
 #include <string>
@@ -7,27 +8,21 @@
 #include "GlobalDefines.h"
 #include <memory.h>
 
-splitLicensePlate::splitLicensePlate()
+using namespace ImageLib;
+
+splitLicensePlate::splitLicensePlate(std::unique_ptr<ImageGray>& img) : image(std::move(img))
 {
-	originalImage = corona::OpenImage((Data::getInstance().getPath() + Data::getInstance().getName()).c_str(), corona::PF_R8G8B8);
-	if (!originalImage){
-		std::cout << "Failed loading the image :(";
-	}
-	void* pixels = originalImage->getPixels();
-	originalPixels = (byte*)pixels;
-	height = originalImage->getHeight();
-	width = originalImage->getWidth();
-	imageSurface = originalImage->getWidth() * originalImage->getHeight();
-	for (int i = 0; i < width; i++){
+	//image = std::move(img);
+	width = img->width();
+	height = img->height();
+	imageSurface = width * height;
+	for (int i = 0; i < width; i++) {
 		splitCSVSplit[i] = 0;
 	}
 }
 
-
 splitLicensePlate::~splitLicensePlate()
 {
-	delete originalImage;
-	delete splitImage;
 }
 
 int* splitLicensePlate::getSplitCSVSplit()
@@ -35,14 +30,16 @@ int* splitLicensePlate::getSplitCSVSplit()
 	return  splitCSVSplit;
 }
 
-void splitLicensePlate::ProcessImage()
+std::vector<ImageGray> splitLicensePlate::ProcessImage()
 {
+	std::vector<ImageGray> splitimage;
+
 	const int kentGrote = 8;									/////// kenteken grooteee <---- hierrrrr
 	for (int i = 0; i < width; i++){
 		for (int j = 0; j < height; j++){
-			int xMatrix = (i * 3);
-			int yMatrix = (j * (width * 3));
-			byte whiteOrBlack = originalPixels[xMatrix + yMatrix];
+			//int xMatrix = i;
+			//int yMatrix = j;// *width;
+			byte whiteOrBlack = image->at(i, j);
 			if (whiteOrBlack == 0){
 				splitCSVSplit[i] += 1;
 			}
@@ -66,28 +63,39 @@ void splitLicensePlate::ProcessImage()
 	for (int z = 0; z < kentGrote; z++){
 		int splitWidth = borderRight[z] - borderLeft[z];
 		char buffert[20];
-		splitImage = corona::CreateImage(splitWidth, originalImage->getHeight(), corona::PF_R8G8B8);
-		if (!splitImage){
+
+		ImageGray character = ImageGray(splitWidth, image->height());
+		/*/splitImage = corona::CreateImage(splitWidth, image->height(), corona::PF_R8G8B8);
+		if (!character){
 			std::cout << "Failed creating the grey image :(";
 		}
-		void* pixels2 = splitImage->getPixels();
-		splitPixels = (byte*)pixels2;
+		*/
+		//void* pixels2 = splitImage->getPixels();
+		//splitPixels = (byte*)pixels2;
+
+
 		for (int i = borderLeft[z]; i < borderRight[z]; i++){
 			for (int j = 0; j < height; j++){
-				for (int k = 0; k < 3; k++)
-				{
-					int xSplit = (i - borderLeft[z]) * 3;
-					int ySplit = (j * (splitWidth * 3));
-					int xOriginal = (i * 3);
-					int yOriginal = (j * (width * 3));
-					splitPixels[xSplit + ySplit + k] = originalPixels[xOriginal + yOriginal + k];
-				}
+				//for (int k = 0; k < 3; k++)
+				//{
+
+					int xSplit = (i - borderLeft[z]);
+					//int ySplit = (j * (splitWidth));
+					//int xOriginal = i;
+					//int yOriginal = j * width;
+
+					unsigned char& pixel = character.at(xSplit, j);
+					pixel = image->at(i, j);
+
+					//splitPixels[xSplit + ySplit + k] = image->begin[xOriginal + yOriginal + k];
+				//}
 			}
 		}
-
 		_itoa_s(z, buffert, 20, 10);
-		corona::SaveImage((Data::getInstance().getPath() + "split_" + buffert + Data::getInstance().getFile() + ".png").c_str(), corona::FF_PNG, splitImage);
+		//corona::SaveImage((Data::getInstance().getPath() + "split_" + buffert + Data::getInstance().getFile() + ".png").c_str(), corona::FF_PNG, splitImage);
+		splitimage.push_back(character);
 	}
+	return splitimage;
 }
 
 void splitLicensePlate::WriteCSV()

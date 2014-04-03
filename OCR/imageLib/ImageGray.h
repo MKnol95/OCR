@@ -6,9 +6,11 @@ namespace ImageLib
 	class ImageGray : public Image
 	{
 	public:
+		ImageGray();
 		ImageGray(unsigned int width, unsigned int height);
 		ImageGray(unsigned int width, unsigned int height, const std::vector<unsigned char> & data);
 		ImageGray(unsigned int width, unsigned int height, const unsigned char * data);
+		~ImageGray();
 
 		int channels() const { return 1; }
 

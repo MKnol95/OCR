@@ -2,6 +2,8 @@
 
 namespace ImageLib
 {
+	ImageGray::ImageGray() : Image(0, 0, 1){}
+
 	ImageGray::ImageGray(unsigned int width, unsigned int height)
 		: Image(width, height, 1)
 	{
@@ -18,6 +20,9 @@ namespace ImageLib
 		: Image(width, height, 1, data)
 	{
 
+	}
+
+	ImageGray::~ImageGray() {
 	}
 
 	unsigned char * ImageGray::data(unsigned int x, unsigned int y)
