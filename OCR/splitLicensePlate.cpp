@@ -78,10 +78,10 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 	return splitimage;
 }
 
-void splitLicensePlate::WriteCSV(int x)
+void splitLicensePlate::WriteCSV(int x, int y)
 {
-	if (x == 0){
-		splitCSV.open((Data::getInstance().getPath() + "split_" + Data::getInstance().getFile() + "_histogram.csv").c_str());
+	if (x == 0 && y == 0){
+		splitCSV.open((Data::getInstance().getPath() + "split_histogram.csv").c_str());
 		for (int i = 0; i < width; i++)
 		{
 			float normalized = ((float)splitCSVSplit[i]);
@@ -90,7 +90,10 @@ void splitLicensePlate::WriteCSV(int x)
 		splitCSV.close();
 	}
 	else if (x == 1){
-		horizontalCSV.open((Data::getInstance().getPath() + "horizontal_" + Data::getInstance().getFile() + "_histogram.csv").c_str());
+		std::string path = "C:\\Images\\horizontal_histogram";
+		path += std::to_string(y);
+		path += ".csv";
+		horizontalCSV.open(path);
 		for (int i = 0; i < width; i++)
 		{
 			float normalized = ((float)splitCSVSplit[i]);
@@ -99,7 +102,10 @@ void splitLicensePlate::WriteCSV(int x)
 		horizontalCSV.close();
 	}
 	else if (x == 2){
-		verticalCSV.open((Data::getInstance().getPath() + "vertical_" + Data::getInstance().getFile() + "_histogram.csv").c_str());
+		std::string path = "C:\\Images\\vertical_histogram";
+		path += std::to_string(y);
+		path += ".csv";
+		verticalCSV.open(path);
 		for (int i = 0; i < height; i++)
 		{
 			float normalized = ((float)splitCSVSplit[i]);
