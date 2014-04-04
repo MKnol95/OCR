@@ -16,9 +16,6 @@ splitLicensePlate::splitLicensePlate(std::unique_ptr<ImageGray>& img) : image(st
 	width = img->width();
 	height = img->height();
 	imageSurface = width * height;
-	for (int i = 0; i < width; i++) {
-		splitCSVSplit[i] = 0;
-	}
 }
 
 splitLicensePlate::~splitLicensePlate()
@@ -34,33 +31,39 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 {
 	std::vector<ImageGray> splitimage;
 
-	const int kentGrote = 8;									/////// kenteken grooteee <---- hierrrrr
-	for (int i = 0; i < width; i++){
-		for (int j = 0; j < height; j++){
-			//int xMatrix = i;
-			//int yMatrix = j;// *width;
-			byte whiteOrBlack = image->at(i, j);
-			if (whiteOrBlack == 0){
-				splitCSVSplit[i] += 1;
-			}
-		}
-	}
-	int borderLeft[kentGrote];
-	int borderRight[kentGrote];
-	int countL = 0, countR = 0;
+	const int findArea = 20;									/////// 8 karakters + 12 vlekkeen op het kenteken die los van de characters zitten is er mogelijk voor worst case.
+	splitLicensePlate::csvVertical();
+	int borderLeft[findArea];
+	int borderRight[findArea];
+	int countL = 0, countR = 0, areaFound = 0;
 	for (int i = 0; i < width; i++){
 		if (splitCSVSplit[i] != 0 && splitCSVSplit[i - 1] == 0) // vergelijking met de pixel ervoor.
 		{
 			borderLeft[countL] = i;
 			countL++;
+
+		}
+		else if (i == 0 && splitCSVSplit[i] != 0) // vergelijking met de pixel ervoor.
+		{
+			borderLeft[countL] = i;
+			countL++;
+
 		}
 		else if (splitCSVSplit[i] != 0 && splitCSVSplit[i + 1] == 0) // vergelijking mer de pixel ernaa
 		{
-			borderRight[countR] = i + 1;
-			countR++;
+			if (i < width){
+				borderRight[countR] = i + 1;
+				countR++;
+				areaFound++;
+			}
+			else if (i == width)
+			{
+				borderRight[countR] = i;
+				areaFound++;
+			}
 		}
 	}
-	for (int z = 0; z < kentGrote; z++){
+	for (int z = 0; z < areaFound; z++){
 		int splitWidth = borderRight[z] - borderLeft[z];
 		char buffert[20];
 
@@ -76,8 +79,8 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 
 		for (int i = borderLeft[z]; i < borderRight[z]; i++){
 			for (int j = 0; j < height; j++){
-				//for (int k = 0; k < 3; k++)
-				//{
+				for (int k = 0; k < 3; k++)
+				{
 
 					int xSplit = (i - borderLeft[z]);
 					//int ySplit = (j * (splitWidth));
@@ -86,9 +89,8 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 
 					unsigned char& pixel = character.at(xSplit, j);
 					pixel = image->at(i, j);
-
-					//splitPixels[xSplit + ySplit + k] = image->begin[xOriginal + yOriginal + k];
-				//}
+					//pixel = image->begin();
+				}
 			}
 		}
 		_itoa_s(z, buffert, 20, 10);
@@ -98,13 +100,61 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 	return splitimage;
 }
 
-void splitLicensePlate::WriteCSV()
+void splitLicensePlate::WriteCSV(int x)
 {
-	splitCSV.open((Data::getInstance().getPath() + "split_" + Data::getInstance().getFile() + "_histogram.csv").c_str());
-	for (int i = 0; i < width; i++)
-	{
-		float normalized = ((float)splitCSVSplit[i]);
-		splitCSV << i << ";" << normalized << "\n";
+	if (x == 0){
+		splitCSV.open((Data::getInstance().getPath() + "split_" + Data::getInstance().getFile() + "_histogram.csv").c_str());
+		for (int i = 0; i < width; i++)
+		{
+			float normalized = ((float)splitCSVSplit[i]);
+			splitCSV << i << ";" << normalized << "\n";
+		}
+		splitCSV.close();
 	}
-	splitCSV.close();
+	else if (x == 1){
+		horizontalCSV.open((Data::getInstance().getPath() + "horizontal_" + Data::getInstance().getFile() + "_histogram.csv").c_str());
+		for (int i = 0; i < width; i++)
+		{
+			float normalized = ((float)splitCSVSplit[i]);
+			horizontalCSV << i << ";" << normalized << "\n";
+		}
+		horizontalCSV.close();
+	}
+	else if (x == 2){
+		verticalCSV.open((Data::getInstance().getPath() + "vertical_" + Data::getInstance().getFile() + "_histogram.csv").c_str());
+		for (int i = 0; i < width; i++)
+		{
+			float normalized = ((float)splitCSVSplit[i]);
+			verticalCSV << i << ";" << normalized << "\n";
+		}
+		verticalCSV.close();
+	}
+}
+
+void splitLicensePlate::csvHorizontaal(){
+	for (int i = 0; i < width; i++) {
+		splitCSVSplit[i] = 0;
+	}
+	for (int i = 0; i < width; i++){
+		for (int j = 0; j < height; j++){
+			byte whiteOrBlack = image->at(i, j);
+			if (whiteOrBlack == 0){
+				splitCSVSplit[i] += 1;
+			}
+		}
+	}
+}
+
+void splitLicensePlate::csvVertical(){
+	for (int i = 0; i < width; i++) {
+		splitCSVSplit[i] = 0;
+	}
+	for (int j = 0; j < height; j++){
+		for (int i = 0; i < width; i++){
+			byte whiteOrBlack = image->at(i, j);
+			if (whiteOrBlack == 0){
+				splitCSVSplit[i] += 1;
+			}
+		}
+	}
 }

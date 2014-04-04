@@ -12,8 +12,7 @@ class splitLicensePlate
 {
 private:
 	std::unique_ptr<ImageGray> &image;
-
-	std::ofstream splitCSV;
+	std::ofstream splitCSV, horizontalCSV, verticalCSV;
 	int imageSurface, height, width;
 	int splitCSVSplit[2000];
 public:
@@ -22,6 +21,8 @@ public:
 	int* getSplitCSVSplit();
 	corona::Image* getImageData();
 	std::vector<ImageGray> ProcessImage();
-	void WriteCSV();
+	void WriteCSV(int);
+	void splitLicensePlate::csvHorizontaal();
+	void splitLicensePlate::csvVertical();
 };
 

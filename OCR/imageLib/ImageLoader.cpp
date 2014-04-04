@@ -20,7 +20,7 @@ namespace ImageLib
 		std::unique_ptr<ImageGray> img = std::make_unique<ImageGray>(image->getWidth(), image->getHeight());
 		int count = 0;
 		for (std::vector<unsigned char>::iterator it = img->begin(); it != img->end(); ++it) {
-			unsigned char color = pixels[count] + pixels[count + 1] + pixels[count + 2] / 3;
+			unsigned char color = (unsigned char)((int)(pixels[count] + pixels[count + 1] + pixels[count + 2]) / 3);
 			*it = color;
 			count += 3;
 		}
