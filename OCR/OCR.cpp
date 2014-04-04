@@ -9,7 +9,7 @@ using namespace ImageLib;
 int main(int argc, char *argv[])
 {
 	Data::getInstance().initializeDefines(argv);
-	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\kenteken_lol.png"));
+	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\kenteken.png"));
 	splitLicensePlate* makeSplit = new splitLicensePlate(image);
 	std::vector<ImageGray> characters = makeSplit->ProcessImage();
 	makeSplit->WriteCSV(0);
@@ -39,9 +39,9 @@ int main(int argc, char *argv[])
 		splitLicensePlate* makeCsvHorizontal = new splitLicensePlate(image);
 		makeCsvHorizontal->csvHorizontaal();
 		makeCsvHorizontal->WriteCSV(1);
-		//splitLicensePlate* makeCsvVertical = new splitLicensePlate(image);
-		//makeCsvVertical->csvVertical();
-		//makeCsvVertical->WriteCSV();
+		splitLicensePlate* makeCsvVertical = new splitLicensePlate(image);
+		makeCsvVertical->csvVertical();
+		makeCsvVertical->WriteCSV(2);
 	}
 	return 0;
 }

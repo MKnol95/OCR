@@ -1,10 +1,8 @@
-﻿Build started 4-4-2014 13:27:09.
+﻿Build started 4-4-2014 17:20:35.
      1>Project "C:\Users\Marco\Desktop\OCR\OCR\OCR.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt OCR.cpp splitLicensePlate.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt splitLicensePlate.cpp
          splitLicensePlate.cpp
-         OCR.cpp
-         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Marco\Desktop\OCR\Debug\OCR.exe" /INCREMENTAL /NOLOGO lib\corona.lib lib\LibTimer.lib lib\zlib.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Marco\Desktop\OCR\Debug\OCR.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Marco\Desktop\OCR\Debug\OCR.lib" /MACHINE:X86 Debug\charHistogram.obj
          Debug\Image.obj
@@ -13,10 +11,9 @@
          Debug\ImageRGB.obj
          Debug\OCR.obj
          Debug\splitLicensePlate.obj
-     1>charHistogram.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
          OCR.vcxproj -> C:\Users\Marco\Desktop\OCR\Debug\OCR.exe
      1>Done Building Project "C:\Users\Marco\Desktop\OCR\OCR\OCR.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.57
+Time Elapsed 00:00:00.69
