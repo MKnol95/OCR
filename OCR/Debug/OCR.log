@@ -1,8 +1,12 @@
-﻿Build started 6-4-2014 15:54:43.
+﻿Build started 6-4-2014 19:29:59.
      1>Project "C:\Users\Marco\Desktop\OCR\OCR\OCR.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt OCR.cpp splitLicensePlate.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt OCR.cpp imageLib\Image.cpp imageLib\ImageGray.cpp imageLib\ImageLoader.cpp imageLib\ImageRGB.cpp splitLicensePlate.cpp
          splitLicensePlate.cpp
+         ImageRGB.cpp
+         ImageLoader.cpp
+         ImageGray.cpp
+         Image.cpp
          OCR.cpp
          Generating Code...
        Link:
@@ -13,9 +17,10 @@
          Debug\ImageRGB.obj
          Debug\OCR.obj
          Debug\splitLicensePlate.obj
+         LINK : C:\Users\Marco\Desktop\OCR\Debug\OCR.exe not found or not built by the last incremental link; performing full link
          OCR.vcxproj -> C:\Users\Marco\Desktop\OCR\Debug\OCR.exe
      1>Done Building Project "C:\Users\Marco\Desktop\OCR\OCR\OCR.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.43
+Time Elapsed 00:00:03.08
