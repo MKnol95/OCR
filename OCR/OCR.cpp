@@ -8,6 +8,7 @@ using namespace ImageLib;
 
 int main(int argc, char *argv[])
 {
+	//testen?
 	Data::getInstance().initializeDefines(argv);
 	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\kenteken.png"));
 	splitLicensePlate* makeSplit = new splitLicensePlate(image);
