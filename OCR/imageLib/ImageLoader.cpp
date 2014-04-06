@@ -12,7 +12,7 @@ namespace ImageLib
 	std::unique_ptr<ImageGray> loadImg(std::string filename)
 	{
 		corona::Image* image = corona::OpenImage(filename.c_str(), corona::PF_R8G8B8);
-		
+		// is it really working?
 		if (!image) {
 			throw new std::runtime_error("Image is not rgb");
 		}
