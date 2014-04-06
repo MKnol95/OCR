@@ -12,7 +12,6 @@ int main(int argc, char *argv[])
 	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\kenteken.png"));
 	splitLicensePlate* makeSplit = new splitLicensePlate(image);
 	std::vector<ImageGray> characters = makeSplit->ProcessImage();
-	makeSplit->WriteCSV(0,0);
 	int number = 0;
 	for (ImageGray &character : characters) {
 		corona::Image* destination = corona::CreateImage(character.width(), character.height(), corona::PF_R8G8B8);
@@ -31,13 +30,14 @@ int main(int argc, char *argv[])
 		corona::SaveImage(path.c_str(), corona::FF_PNG, destination);
 		++number;
 	}
+	makeSplit->WriteCSV(0, 0);
 	for (int i = 0; i < number; i++) {
 		std::string path = "C:\\Images\\";
 		path += std::to_string(i);
 		path += ".png";
 		std::unique_ptr<ImageGray> image(loadImg(path));
 		splitLicensePlate* makeCsvHorizontal = new splitLicensePlate(image);
-		makeCsvHorizontal->csvHorizontaal();
+		makeCsvHorizontal->csvHorizontal();
 		makeCsvHorizontal->WriteCSV(1,i);
 		splitLicensePlate* makeCsvVertical = new splitLicensePlate(image);
 		makeCsvVertical->csvVertical();
