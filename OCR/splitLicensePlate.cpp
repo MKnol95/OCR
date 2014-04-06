@@ -22,7 +22,7 @@ splitLicensePlate::~splitLicensePlate()
 {
 }
 
-int* splitLicensePlate::getSplitCSVSplit()
+int* splitLicensePlate::getCSV()
 {
 	return  csvData;
 }
@@ -31,11 +31,11 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 {
 	std::vector<ImageGray> splitimage;
 
-	const int findArea = 20;									/////// 8 karakters + 12 vlekkeen op het kenteken die los van de characters zitten is er mogelijk voor worst case.
-	splitLicensePlate::csvHorizontal();
+	const int findArea = 20;/////// 8 karakters + 12 vlekkeen op het kenteken die los van de characters zitten is er mogelijk voor worst case.
 	int borderLeft[findArea];
 	int borderRight[findArea];
-	int countL = 0, countR = 0, areaFound = 0;
+	int countL = 0, countR = 0, areaFound = 0, above = 0, under = 0;
+	splitLicensePlate::csvHorizontal();
 	for (int i = 0; i < width; i++){
 		if (csvData[i] != 0 && csvData[i - 1] == 0) // vergelijking met de pixel ervoor.
 		{
@@ -63,6 +63,34 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 			}
 		}
 	}
+	/* under contruction xd
+	for (int i = 0; i < height; i++){
+		if (csvData[i] != 0 && csvData[i - 1] == 0) // vergelijking met de pixel ervoor.
+		{
+			borderLeft[countL] = i;
+			countL++;
+
+		}
+		else if (i == 0 && csvData[i] != 0) // vergelijking met de pixel ervoor.
+		{
+			borderLeft[countL] = i;
+			countL++;
+
+		}
+		else if (csvData[i] != 0 && csvData[i + 1] == 0) // vergelijking mer de pixel ernaa
+		{
+			if (i < width){
+				borderRight[countR] = i + 1;
+				countR++;
+				areaFound++;
+			}
+			else if (i == width)
+			{
+				borderRight[countR] = i;
+				areaFound++;
+			}
+		}
+	}*/
 	for (int z = 0; z < areaFound; z++){
 		int splitWidth = borderRight[z] - borderLeft[z];
 		ImageGray character = ImageGray(splitWidth, image->height());
@@ -115,10 +143,7 @@ void splitLicensePlate::WriteCSV(int x, int y)
 	}
 }
 
-void splitLicensePlate::csvHorizontal(){
-	for (int i = 0; i < width; i++) {
-		csvData[i] = 0;
-	}
+int* splitLicensePlate::csvHorizontal(){
 	for (int i = 0; i < width; i++){
 		for (int j = 0; j < height; j++){
 			byte whiteOrBlack = image->at(i, j);
@@ -127,12 +152,10 @@ void splitLicensePlate::csvHorizontal(){
 			}
 		}
 	}
+	return csvData;
 }
 
-void splitLicensePlate::csvVertical(){
-	for (int i = 0; i < height; i++) {
-		csvData[i] = 0;
-	}
+int* splitLicensePlate::csvVertical(){
 	for (int i = 0; i < height; i++){
 		for (int j = 0; j < width; j++){
 			byte whiteOrBlack = image->at(j, i);
@@ -141,4 +164,5 @@ void splitLicensePlate::csvVertical(){
 			}
 		}
 	}
+	return csvData;
 }
