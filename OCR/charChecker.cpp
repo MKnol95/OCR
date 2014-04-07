@@ -6,27 +6,34 @@
 #include <vector>
 #include "charChecker.h"
 
-charChecker::charChecker(std::vector<int>&){
+charChecker::charChecker(std::vector<int>& element){
 
 }
+
 charChecker::~charChecker(){
 
 }
+
 char& charChecker::getChar(){
 	return  Char;
 }
+
 void charChecker::process(){
 
 }
-void charChecker::bucketPeaks(){
 
+int charChecker::bucketPeaks(bool H){
+	return numberPeaks;
 }
-void charChecker::bucketSize(){
 
+int charChecker::bucketSize(){
+	return charWidth;
 }
-void charChecker::specificationHorizontalMidelLine(){
 
+int charChecker::specificationHorizontalMiddleLine(){
+	return intersectsH;
 }
-void charChecker::specificationVerticalMidelLine(){
 
+int charChecker::specificationVerticalMiddleLine(){
+	return intersectsV;
 }

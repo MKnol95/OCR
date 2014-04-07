@@ -13,14 +13,15 @@ class charChecker
 {
 private:
 	char Char;
+	int intersectsV = 0, intersectsH = 0, numberPeaks = 0, charWidth = 0;
 public:
 	charChecker(std::vector<int>&);
 	~charChecker();
 	char& charChecker::getChar();
 	void charChecker::process();
-	void charChecker::bucketPeaks();
-	void charChecker::bucketSize();
-	void charChecker::specificationHorizontalMidelLine();
-	void charChecker::specificationVerticalMidelLine();
+	int charChecker::bucketPeaks(bool);
+	int charChecker::bucketSize();
+	int charChecker::specificationHorizontalMiddleLine();
+	int charChecker::specificationVerticalMiddleLine();
 };
 
