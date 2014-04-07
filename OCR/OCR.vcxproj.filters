@@ -21,9 +21,6 @@
     <ClInclude Include="splitLicensePlate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="charHistogram.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GlobalDefines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -39,15 +36,15 @@
     <ClInclude Include="imageLib\ImageRGB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="charChecker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OCR.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="splitLicensePlate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="charHistogram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="imageLib\Image.cpp">
@@ -60,6 +57,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="imageLib\ImageRGB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="charChecker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

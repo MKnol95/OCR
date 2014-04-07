@@ -1,10 +1,10 @@
-#include "splitLicensePlate.h"
 #include <vector>
 #include <memory>
-#include <vector>
 #include "imageLib\ImageLoader.h"
 #include "imageLib\ImageRGB.h"
 #include "imageLib\ImageGray.h"
+#include "charChecker.h"
+#include "splitLicensePlate.h"
 
 using namespace ImageLib;
 

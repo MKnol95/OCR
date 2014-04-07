@@ -82,7 +82,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="charHistogram.h" />
+    <ClInclude Include="charChecker.h" />
     <ClInclude Include="GlobalDefines.h" />
     <ClInclude Include="imageLib\Image.h" />
     <ClInclude Include="imageLib\ImageGray.h" />
@@ -91,7 +91,7 @@
     <ClInclude Include="splitLicensePlate.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="charHistogram.cpp" />
+    <ClCompile Include="charChecker.cpp" />
     <ClCompile Include="imageLib\Image.cpp" />
     <ClCompile Include="imageLib\ImageGray.cpp" />
     <ClCompile Include="imageLib\ImageLoader.cpp" />
