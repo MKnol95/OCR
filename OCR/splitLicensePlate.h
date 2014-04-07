@@ -8,7 +8,11 @@
 #include "imageLib\ImageGray.h"
 
 using namespace ImageLib;
-
+//! class SplitLicensePlate
+//
+//! @authors Rick van der Paauw, Marco Knol, Melvin van den Berg and Michael Pieneman
+//! This class contains splitting of the characters and the creation of the histograms. 
+//! This histograms are used for character recognition.
 class splitLicensePlate
 {
 private:
