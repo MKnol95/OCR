@@ -1,5 +1,6 @@
 #include "splitLicensePlate.h"
 #include <memory>
+#include <vector>
 #include "imageLib\ImageLoader.h"
 #include "imageLib\ImageRGB.h"
 #include "imageLib\ImageGray.h"
@@ -8,7 +9,7 @@ using namespace ImageLib;
 
 int main(int argc, char *argv[])
 {
-	//testen?
+	// the example kenteken.png has to be in the folder C:\Images
 	Data::getInstance().initializeDefines(argv);
 	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\kenteken.png"));
 	splitLicensePlate* makeSplit = new splitLicensePlate(image);

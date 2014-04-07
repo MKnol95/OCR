@@ -1,4 +1,4 @@
-﻿Build started 6-4-2014 20:22:58.
+﻿Build started 7-4-2014 12:21:31.
      1>Project "C:\Users\Fred\Source\Repos\OCR\OCR\OCR.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt splitLicensePlate.cpp
@@ -11,10 +11,9 @@
          Debug\ImageRGB.obj
          Debug\OCR.obj
          Debug\splitLicensePlate.obj
-     1>charHistogram.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
          OCR.vcxproj -> C:\Users\Fred\Source\Repos\OCR\Debug\OCR.exe
      1>Done Building Project "C:\Users\Fred\Source\Repos\OCR\OCR\OCR.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.31
+Time Elapsed 00:00:02.64
