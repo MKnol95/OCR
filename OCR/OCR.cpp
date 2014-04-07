@@ -1,4 +1,5 @@
 #include "splitLicensePlate.h"
+#include <vector>
 #include <memory>
 #include "imageLib\ImageLoader.h"
 #include "imageLib\ImageRGB.h"
@@ -10,7 +11,7 @@ int main(int argc, char *argv[])
 {
 	//testen?
 	Data::getInstance().initializeDefines(argv);
-	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\kenteken.png"));
+	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\alle.png"));
 	splitLicensePlate* makeSplit = new splitLicensePlate(image);
 	std::vector<ImageGray> characters = makeSplit->ProcessImage();
 	int number = 0;

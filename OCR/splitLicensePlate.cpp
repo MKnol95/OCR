@@ -2,6 +2,7 @@
 #include "OCR.h"
 #include "imageLib\ImageGray.h"
 #include <corona.h>
+#include <vector>
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -22,7 +23,7 @@ splitLicensePlate::~splitLicensePlate()
 {
 }
 
-int* splitLicensePlate::getCSV()
+std::vector<int>& splitLicensePlate::getCSV()
 {
 	return  csvData;
 }
@@ -31,7 +32,7 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 {
 	std::vector<ImageGray> splitimage;
 
-	const int findArea = 40;/////// 8 karakters + 12 vlekkeen op het kenteken die los van de characters zitten is er mogelijk voor worst case.
+	const int findArea = 20;/////// 8 karakters + 12 vlekkeen op het kenteken die los van de characters zitten is er mogelijk voor worst case.
 	int borderLeft[findArea];
 	int borderRight[findArea];
 	int countL = 0, countR = 0, areaFound = 0, above = 0, under = 0;
@@ -143,7 +144,8 @@ void splitLicensePlate::WriteCSV(int x, int y)
 	}
 }
 
-int* splitLicensePlate::csvHorizontal(){
+void splitLicensePlate::csvHorizontal(){
+	csvData = std::vector<int>(width);
 	for (int i = 0; i < width; i++){
 		csvData[i] = 0;
 	}
@@ -155,11 +157,11 @@ int* splitLicensePlate::csvHorizontal(){
 			}
 		}
 	}
-	return csvData;
 }
 
-int* splitLicensePlate::csvVertical(){
-	for (int i = 0; i < width; i++){
+void splitLicensePlate::csvVertical(){
+	csvData = std::vector<int>(height);
+	for (int i = 0; i < height; i++){
 		csvData[i] = 0;
 	}
 	for (int i = 0; i < height; i++){
@@ -170,5 +172,4 @@ int* splitLicensePlate::csvVertical(){
 			}
 		}
 	}
-	return csvData;
 }
