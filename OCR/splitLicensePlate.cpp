@@ -143,7 +143,8 @@ void splitLicensePlate::WriteCSV(int x, int y)
 	}
 }
 
-int* splitLicensePlate::csvHorizontal(){
+// fill csv horizontal
+void splitLicensePlate::csvHorizontal(){
 	for (int i = 0; i < width; i++){
 		csvData[i] = 0;
 	}
@@ -155,10 +156,10 @@ int* splitLicensePlate::csvHorizontal(){
 			}
 		}
 	}
-	return csvData;
 }
 
-int* splitLicensePlate::csvVertical(){
+// fill csv vertical
+void splitLicensePlate::csvVertical(){
 	for (int i = 0; i < width; i++){
 		csvData[i] = 0;
 	}
@@ -170,5 +171,4 @@ int* splitLicensePlate::csvVertical(){
 			}
 		}
 	}
-	return csvData;
 }

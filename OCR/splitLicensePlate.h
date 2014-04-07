@@ -22,7 +22,7 @@ public:
 	corona::Image* getImageData();
 	std::vector<ImageGray> splitLicensePlate::ProcessImage();
 	void splitLicensePlate::WriteCSV(int,int);
-	int* splitLicensePlate::csvHorizontal();
-	int* splitLicensePlate::csvVertical();
+	void splitLicensePlate::csvHorizontal();
+	void splitLicensePlate::csvVertical();
 };
 
