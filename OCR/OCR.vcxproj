@@ -88,7 +88,6 @@
     <ClInclude Include="imageLib\ImageGray.h" />
     <ClInclude Include="imageLib\ImageLoader.h" />
     <ClInclude Include="imageLib\ImageRGB.h" />
-    <ClInclude Include="OCR.h" />
     <ClInclude Include="splitLicensePlate.h" />
   </ItemGroup>
   <ItemGroup>

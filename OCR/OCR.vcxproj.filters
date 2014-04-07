@@ -18,9 +18,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="OCR.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="splitLicensePlate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
