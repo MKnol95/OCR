@@ -32,61 +32,60 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 {
 	std::vector<ImageGray> splitimage;
 
-	const int findArea = 20;/////// 8 karakters + 12 vlekkeen op het kenteken die los van de characters zitten is er mogelijk voor worst case.
+	const int findArea = 40;/////// 8 karakters + 12 vlekkeen op het kenteken die los van de characters zitten is er mogelijk voor worst case.
 	int borderLeft[findArea];
 	int borderRight[findArea];
 	int countL = 0, countR = 0, areaFound = 0, above = 0, under = 0;
 	splitLicensePlate::csvVertical();
-	for (int i = 0; i < height; i++){
-		if (csvData[i] != 0 && csvData[i - 1] == 0) // vergelijking met de pixel ervoor.
-		{
-			if (above == 0){
-				above = i;
-			}
+	for (int i = 1; i < height; i++){
+		if (csvData[i] == 0){
+			continue;
 		}
-		else if (i == 0 && csvData[i] != 0) // vergelijking met de pixel ervoor.
-		{
-			if (above == 0){
-				above = i;
-			}
-		}
-		else if (csvData[i] != 0 && csvData[i + 1] == 0) // vergelijking mer de pixel ernaa
-		{
-			if (i < height){
-				under = i;
-			}
-			else if (i == height)
+		else{
+			if (csvData[i - 1] == 0) // vergelijking met de pixel ervoor.
 			{
-				under = i;
+				above = i;
+				continue;
+			}
+			else if(i+1 < height){
+				if (csvData[i + 1] == 0){
+					under = i;
+					break;
+				}
 			}
 		}
 	}
 	splitLicensePlate::csvHorizontal();
 	for (int i = 0; i < width; i++){
-		if (csvData[i] != 0 && csvData[i - 1] == 0) // vergelijking met de pixel ervoor.
+		if (csvData[i] == 0) {
+			continue;
+		}
+		if (i == 0) // eerste run
 		{
 			borderLeft[countL] = i;
 			countL++;
-
 		}
-		else if (i == 0 && csvData[i] != 0) // vergelijking met de pixel ervoor.
-		{
-			borderLeft[countL] = i;
-			countL++;
+		else {
+			if (csvData[i - 1] == 0) { // vergelijking met de pixel ervoor.
+				borderLeft[countL] = i;
+				countL++;
+				continue;
+			}
+			if (i != (width - 1)) { //not last index
+				if (csvData[i + 1] == 0) { // vergelijking mer de pixel erna
+					if (i < width){
+						borderRight[countR] = i + 1;
+						countR++;
+						areaFound++;
+					}
+					else if (i == width)
+					{
+						borderRight[countR] = i;
+						areaFound++;
+					}
+				}
+			}
 
-		}
-		else if (csvData[i] != 0 && csvData[i + 1] == 0) // vergelijking mer de pixel ernaa
-		{
-			if (i < width){
-				borderRight[countR] = i + 1;
-				countR++;
-				areaFound++;
-			}
-			else if (i == width)
-			{
-				borderRight[countR] = i;
-				areaFound++;
-			}
 		}
 	}
 	for (int z = 0; z < areaFound; z++){

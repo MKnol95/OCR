@@ -20,7 +20,6 @@ public:
 	splitLicensePlate(std::unique_ptr<ImageGray>& img);
 	~splitLicensePlate();
 	std::vector<int>& getCSV();
-	corona::Image* getImageData();
 	std::vector<ImageGray> splitLicensePlate::ProcessImage();
 	void splitLicensePlate::WriteCSV(int,int);
 	void splitLicensePlate::csvHorizontal();
