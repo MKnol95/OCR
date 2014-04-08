@@ -41,6 +41,8 @@ int main(int argc, char *argv[])
 		std::unique_ptr<ImageGray> image(loadImg(path));
 		splitLicensePlate* makeCsvHorizontal = new splitLicensePlate(image);
 		makeCsvHorizontal->csvHorizontal();
+		charChecker checker = charChecker(makeCsvHorizontal->getCSV());
+		checker.process();
 		makeCsvHorizontal->WriteCSV(1,i);
 		splitLicensePlate* makeCsvVertical = new splitLicensePlate(image);
 		makeCsvVertical->csvVertical();
