@@ -8,24 +8,23 @@
 #include "imageLib\ImageGray.h"
 
 using namespace ImageLib;
-#define NUMBER_OF_CHARACTERS 36
-#define HORIZONTAL_HISTOGRAM_SIZE 19
-#define VERTICAL_HISTOGRAM_SIZE 15
+#define NUMBER_OF_CHARACTERS 37
+#define HORIZONTAL_HISTOGRAM_SIZE 15
+#define VERTICAL_HISTOGRAM_SIZE 18
 
 class charChecker
 {
 private:
 	char Char;
 	bool horizontal;
-	int scoreH[36];
-	int scoreV[36];
+	int scoreH[NUMBER_OF_CHARACTERS];
+	int scoreV[NUMBER_OF_CHARACTERS];
 	unsigned char csvDataH[HORIZONTAL_HISTOGRAM_SIZE];
 	unsigned char csvDataV[VERTICAL_HISTOGRAM_SIZE];
 	int intersectsV = 0, intersectsH = 0, numberPeaksH = 0, numberPeaksV = 0;
 	void inter1parray(std::vector<int> a, bool horizontal);
 public:
-	charChecker(std::vector<int>& csvDataInputH, std::vector<int>& csvDataInputV, bool hor);
-	~charChecker();
+	charChecker(std::vector<int>& csvDataInputH, int height, std::vector<int>& csvDataInputV, bool hor);
 	char& getChar();
 	char process();
 	int bucketPeaks(bool);

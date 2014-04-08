@@ -138,6 +138,17 @@ void splitLicensePlate::WriteCSV(int x, int y)
 	}
 }
 
+
+
+
+
+
+
+
+
+
+
+
 std::vector<int> splitLicensePlate::csvHorizontal(){
 	csvDataH = std::vector<int>(width);
 	for (int i = 0; i < width; i++){

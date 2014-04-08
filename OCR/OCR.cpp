@@ -9,14 +9,12 @@
 
 using namespace ImageLib;
 
-
-
 int main(int argc, char *argv[])
 {
-
+	//char test[2] = { 4, 3 };
 	// the example kenteken.png has to be in the folder C:\Images
 	//Data::getInstance().initializeDefines(argv);
-	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\kenteken.png"));
+	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\kent.png"));
 	splitLicensePlate* makeSplit = new splitLicensePlate(image);
 	std::vector<ImageGray> characters = makeSplit->ProcessImage();
 	int number = 0;
@@ -38,15 +36,17 @@ int main(int argc, char *argv[])
 		++number;
 	}
 	makeSplit->WriteCSV(0, 0);
-	for (int i = 0; i < 36; i++) {
+	for (int i = 0; i < 37; i++) {
 		std::string path = "C:\\Images\\test";
 		path += std::to_string(i);
 		path += ".png";
 		std::unique_ptr<ImageGray> image(loadImg(path));
 		splitLicensePlate* makeCsv = new splitLicensePlate(image);
-		charChecker checker = charChecker(makeCsv->csvHorizontal(),makeCsv->csvVertical(), true);
-		char kent = checker.process();
-		std::cout << kent;
+		charChecker checker = charChecker(makeCsv->csvHorizontal(), image->height(), makeCsv->csvVertical(), true);
+		makeCsv->WriteCSV(1, i);
+		makeCsv->WriteCSV(2, i);
+		char sdgh = checker.process();
+		std::cout << path << "\t" << sdgh << std::endl;
 	}
 	int bah;
 	std::cin >> bah;
