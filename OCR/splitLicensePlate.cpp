@@ -86,7 +86,7 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 		int splitWidth = borderRight[z] - borderLeft[z];
 		int splitHeight = under - above;
 		int shiftUp = 0;
-		int shiftHeight = under;
+		//int shiftHeight = under;
 		//slice more white spaces in top and bottom of the character
 		for (int j = above; j < under; j++){
 			bool blackFound = false;
@@ -100,17 +100,17 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 				if (shiftUp == 0)
 					shiftUp = j - above;
 			}
-			else {
+			/*else {
 				if (shiftUp != 0) {	
 					//black was already found at least one time. Now only white detected. This means we found white under the char
 					shiftHeight = j;
 					break;
 				}
-			}
+			}*/
 		}
 		//slicing corrected
-		ImageGray character = ImageGray(splitWidth, (shiftHeight - above - shiftUp));
-		for (int j = (above + shiftUp); j < shiftHeight; j++){
+		ImageGray character = ImageGray(splitWidth, (splitHeight - shiftUp));//(shiftHeight - above - shiftUp));
+		for (int j = (above + shiftUp); j < under; j++){ //shiftHeight
 			for (int i = borderLeft[z]; i < borderRight[z]; i++){
 				int xSplit = (i - borderLeft[z]);
 				int ySplit = (j - (above + shiftUp));

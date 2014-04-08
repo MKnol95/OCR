@@ -6,15 +6,21 @@
 #include "imageLib\ImageGray.h"
 #include "charChecker.h"
 #include "splitLicensePlate.h"
+#include "OCRPatternMatching.h"
 
 using namespace ImageLib;
+
+
 
 int main(int argc, char *argv[])
 {
 	//char test[2] = { 4, 3 };
 	// the example kenteken.png has to be in the folder C:\Images
 	//Data::getInstance().initializeDefines(argv);
-	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\genkent.png"));
+
+
+
+	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\chars.png"));
 	splitLicensePlate* makeSplit = new splitLicensePlate(*image);
 	std::vector<ImageGray> characters = makeSplit->ProcessImage();
 	//save image 
@@ -38,26 +44,19 @@ int main(int argc, char *argv[])
 	}
 	makeSplit->WriteCSV(0, 0);
 
-	number = 0;
-	for (ImageGray &character : characters) {
-		std::ofstream myfile;
-		myfile.open("C:\\Images\\PATTERN" + std::to_string(number) + ".txt");
-
-		myfile << "Writing this to a file.\n";
-		myfile.close();
-		++number;
-	}
-
-
-
 	//char recognition starts here
+	OCRPatternMatching matching;
 	number = 0;
 	for (ImageGray &character : characters) {
+		char sdgh = matching.Recognize(character);
+
+		/*
 		splitLicensePlate* makeCsv = new splitLicensePlate(character);
 		charChecker checker = charChecker(makeCsv->csvHorizontal(), character.height(), makeCsv->csvVertical(), true);
 		makeCsv->WriteCSV(1, number);
 		makeCsv->WriteCSV(2, number);
-		char sdgh = checker.process();
+		char sdgh = checker.process();*/
+
 		std::cout << number << "\t" << sdgh << std::endl;
 		++number;
 	}
@@ -65,3 +64,5 @@ int main(int argc, char *argv[])
 	std::cin >> bah;
 	return 0;
 }
+
+
