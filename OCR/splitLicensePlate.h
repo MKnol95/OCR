@@ -17,7 +17,7 @@ class splitLicensePlate
 {
 private:
 	//! @var image Unique pointer to the real address (reference) of image.
-	std::unique_ptr<ImageGray> &image;
+	ImageGray &image;
 	//! @var ImageSurface is the total number of pixels.
 	//! @var Height is the height of the image.
 	//! @var Width is the width of the image.
@@ -31,7 +31,7 @@ public:
 	//
 	//! @param img is a unique pointer to the image.
 	//! The splitLicensePlate-object will get the width and height of the given image.
-	splitLicensePlate(std::unique_ptr<ImageGray>& img);
+	splitLicensePlate(ImageGray& img);
 	//! Process the splitLicensePlate-object
 	//
 	//! This function cuts the characters out of the image and fills the csvData with the number of black pixels. 

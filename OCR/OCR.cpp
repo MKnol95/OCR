@@ -14,9 +14,10 @@ int main(int argc, char *argv[])
 	//char test[2] = { 4, 3 };
 	// the example kenteken.png has to be in the folder C:\Images
 	//Data::getInstance().initializeDefines(argv);
-	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\kent.png"));
-	splitLicensePlate* makeSplit = new splitLicensePlate(image);
+	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\chars.png"));
+	splitLicensePlate* makeSplit = new splitLicensePlate(*image);
 	std::vector<ImageGray> characters = makeSplit->ProcessImage();
+	//save image 
 	int number = 0;
 	for (ImageGray &character : characters) {
 		corona::Image* destination = corona::CreateImage(character.width(), character.height(), corona::PF_R8G8B8);
@@ -36,17 +37,16 @@ int main(int argc, char *argv[])
 		++number;
 	}
 	makeSplit->WriteCSV(0, 0);
-	for (int i = 0; i < 37; i++) {
-		std::string path = "C:\\Images\\test";
-		path += std::to_string(i);
-		path += ".png";
-		std::unique_ptr<ImageGray> image(loadImg(path));
-		splitLicensePlate* makeCsv = new splitLicensePlate(image);
-		charChecker checker = charChecker(makeCsv->csvHorizontal(), image->height(), makeCsv->csvVertical(), true);
-		makeCsv->WriteCSV(1, i);
-		makeCsv->WriteCSV(2, i);
+	//char recognition starts here
+	number = 0;
+	for (ImageGray &character : characters) {
+		splitLicensePlate* makeCsv = new splitLicensePlate(character);
+		charChecker checker = charChecker(makeCsv->csvHorizontal(), character.height(), makeCsv->csvVertical(), true);
+		makeCsv->WriteCSV(1, number);
+		makeCsv->WriteCSV(2, number);
 		char sdgh = checker.process();
-		std::cout << path << "\t" << sdgh << std::endl;
+		std::cout << number << "\t" << sdgh << std::endl;
+		++number;
 	}
 	int bah;
 	std::cin >> bah;

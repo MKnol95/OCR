@@ -14,11 +14,11 @@
 
 using namespace ImageLib;
 
-splitLicensePlate::splitLicensePlate(std::unique_ptr<ImageGray>& img) : image(std::move(img))
+splitLicensePlate::splitLicensePlate(ImageGray& img) : image(img)
 {
 	//image = std::move(img);
-	width = img->width();
-	height = img->height();
+	width = img.width();
+	height = img.height();
 	imageSurface = width * height;
 }
 
@@ -91,7 +91,7 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 				int xSplit = (i - borderLeft[z]);
 				int ySplit = (j - above);
 				unsigned char& pixel = character.at(xSplit, ySplit);
-				pixel = image->at(i, j);
+				pixel = image.at(i, j);
 			}
 		}
 		splitimage.push_back(character);
@@ -156,7 +156,7 @@ std::vector<int> splitLicensePlate::csvHorizontal(){
 	}
 	for (int i = 0; i < width; i++){
 		for (int j = 0; j < height; j++){
-			byte whiteOrBlack = image->at(i, j);
+			byte whiteOrBlack = image.at(i, j);
 			if (whiteOrBlack == 0){
 				csvDataH[i] += 1;
 			}
@@ -172,7 +172,7 @@ std::vector<int> splitLicensePlate::csvVertical(){
 	}
 	for (int i = 0; i < height; i++){
 		for (int j = 0; j < width; j++){
-			byte whiteOrBlack = image->at(j, i);
+			byte whiteOrBlack = image.at(j, i);
 			if (whiteOrBlack == 0){
 				csvDataV[i] += 1;
 			}
