@@ -129,11 +129,12 @@ charChecker::charChecker(std::vector<int>& csvDataInputH, int height, std::vecto
 	inter1parray(csvDataInputV, false);
 
 	float dimension = height / VERTICAL_HISTOGRAM_SIZE;
-	for (int i = 0; i < NUMBER_OF_CHARACTERS; i++) {
-		csvDataH[i] = csvDataH[i] / dimension;
-		csvDataV[i] = csvDataV[i] / dimension;
+	if (dimension > 0) {
+		for (int i = 0; i < NUMBER_OF_CHARACTERS; i++) {
+			csvDataH[i] = csvDataH[i] / dimension;
+			csvDataV[i] = csvDataV[i] / dimension;
+		}
 	}
-
 
 	/*/ik ben marco
 	std::cout << "{";
