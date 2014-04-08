@@ -85,11 +85,27 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 	for (int z = 0; z < areaFound; z++){
 		int splitWidth = borderRight[z] - borderLeft[z];
 		int splitHeight = under - above;
-		ImageGray character = ImageGray(splitWidth, splitHeight);
-		for (int i = borderLeft[z]; i < borderRight[z]; i++){
-			for (int j = above; j < under; j++){
+		int shiftUp = 0;
+		//slice more white spaces in top of the character
+		for (int j = above; j < under; j++){
+			bool blackFound = false;
+			for (int i = borderLeft[z]; i < borderRight[z]; i++){
+				blackFound = image.at(i, j) == 0 ? true : false;
+				if (blackFound) 
+					break;
+			}
+			if (blackFound)
+			{
+				shiftUp = j - above;
+				break;
+			}
+		}
+		//slicing corrected
+		ImageGray character = ImageGray(splitWidth, (splitHeight - shiftUp));
+		for (int j = (above + shiftUp); j < under; j++){
+			for (int i = borderLeft[z]; i < borderRight[z]; i++){
 				int xSplit = (i - borderLeft[z]);
-				int ySplit = (j - above);
+				int ySplit = (j - (above + shiftUp));
 				unsigned char& pixel = character.at(xSplit, ySplit);
 				pixel = image.at(i, j);
 			}
@@ -137,17 +153,6 @@ void splitLicensePlate::WriteCSV(int x, int y)
 		CSVWriter.close();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
 
 std::vector<int> splitLicensePlate::csvHorizontal(){
 	csvDataH = std::vector<int>(width);

@@ -36,6 +36,9 @@
     <ClInclude Include="charChecker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OCRPatternMatching.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OCR.cpp">
@@ -57,6 +60,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="charChecker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OCRPatternMatching.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -87,6 +87,7 @@
     <ClInclude Include="imageLib\ImageGray.h" />
     <ClInclude Include="imageLib\ImageLoader.h" />
     <ClInclude Include="imageLib\ImageRGB.h" />
+    <ClInclude Include="OCRPatternMatching.h" />
     <ClInclude Include="splitLicensePlate.h" />
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +97,7 @@
     <ClCompile Include="imageLib\ImageLoader.cpp" />
     <ClCompile Include="imageLib\ImageRGB.cpp" />
     <ClCompile Include="OCR.cpp" />
+    <ClCompile Include="OCRPatternMatching.cpp" />
     <ClCompile Include="splitLicensePlate.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
