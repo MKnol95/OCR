@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 	//char test[2] = { 4, 3 };
 	// the example kenteken.png has to be in the folder C:\Images
 	//Data::getInstance().initializeDefines(argv);
-	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\genkent.png"));
+	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\genkent2.png"));
 	splitLicensePlate* makeSplit = new splitLicensePlate(*image);
 	std::vector<ImageGray> characters = makeSplit->ProcessImage();
 	//save image 
