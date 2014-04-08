@@ -22,19 +22,6 @@ splitLicensePlate::splitLicensePlate(std::unique_ptr<ImageGray>& img) : image(st
 	imageSurface = width * height;
 }
 
-splitLicensePlate::~splitLicensePlate()
-{
-}
-
-std::vector<int>& splitLicensePlate::getCSVH()
-{
-	return csvDataH;
-}
-std::vector<int>& splitLicensePlate::getCSVV()
-{
-	return csvDataV;
-}
-
 std::vector<ImageGray> splitLicensePlate::ProcessImage()
 {
 	std::vector<ImageGray> splitimage;
@@ -151,7 +138,7 @@ void splitLicensePlate::WriteCSV(int x, int y)
 	}
 }
 
-void splitLicensePlate::csvHorizontal(){
+std::vector<int> splitLicensePlate::csvHorizontal(){
 	csvDataH = std::vector<int>(width);
 	for (int i = 0; i < width; i++){
 		csvDataH[i] = 0;
@@ -164,10 +151,10 @@ void splitLicensePlate::csvHorizontal(){
 			}
 		}
 	}
-	return csvData;
+	return csvDataH;
 }
 
-void splitLicensePlate::csvVertical(){
+std::vector<int> splitLicensePlate::csvVertical(){
 	csvDataV = std::vector<int>(height);
 	for (int i = 0; i < height; i++){
 		csvDataV[i] = 0;
@@ -180,4 +167,5 @@ void splitLicensePlate::csvVertical(){
 			}
 		}
 	}
+	return csvDataV;
 }

@@ -4,7 +4,7 @@
 #include "imageLib\ImageLoader.h"
 #include "imageLib\ImageRGB.h"
 #include "imageLib\ImageGray.h"
-//#include "charChecker.h"
+#include "charChecker.h"
 #include "splitLicensePlate.h"
 
 using namespace ImageLib;
@@ -53,6 +53,7 @@ int main(int argc, char *argv[])
 		{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 },
 		{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 },
 		{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 }
+		
 	};
 
 	unsigned char compareCharsV[NUMBER_OF_CHARACTERS][VERTICAL_HISTOGRAM_SIZE] = {
@@ -141,13 +142,9 @@ int main(int argc, char *argv[])
 		path += std::to_string(i);
 		path += ".png";
 		std::unique_ptr<ImageGray> image(loadImg(path));
-		splitLicensePlate* makeCsvHorizontal = new splitLicensePlate(image);
-		charChecker check((makeCsvHorizontal->csvHorizontal()), true);
-		std::cout << check.process();
-		makeCsvHorizontal->WriteCSV(1,i);
-		splitLicensePlate* makeCsvVertical = new splitLicensePlate(image);
-		makeCsvVertical->csvVertical();
-		makeCsvVertical->WriteCSV(2,i);
+		splitLicensePlate* makeCsv = new splitLicensePlate(image);
+		charChecker checker = charChecker(makeCsv->csvHorizontal(),makeCsv->csvVertical, true);
+		checker.process();
 	}
 	int bah;
 	std::cin >> bah;

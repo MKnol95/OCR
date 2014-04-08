@@ -32,18 +32,6 @@ public:
 	//! @param img is a unique pointer to the image.
 	//! The splitLicensePlate-object will get the width and height of the given image.
 	splitLicensePlate(std::unique_ptr<ImageGray>& img);
-	//! SplitLicensePlate destructor
-	//
-	//! Destructs splitLicensePlate-object.
-	~splitLicensePlate();
-	//! Get the CSV-pointer
-	//
-	//! Return the pointer to the array of the CSV data. 
-	std::vector<int>& getCSVH();
-	//! Get the CSV-pointer
-	//
-	//! Return the pointer to the array of the CSV data. 
-	std::vector<int>& getCSVV();
 	//! Process the splitLicensePlate-object
 	//
 	//! This function cuts the characters out of the image and fills the csvData with the number of black pixels. 
@@ -57,10 +45,10 @@ public:
 	//! horizontal CSV fill 
 	//
 	//! Fill the CSV-data with the number of black pixels on the horizontal line (columns).
-	void csvHorizontal();
+	std::vector<int> csvHorizontal();
 	//! vertical CSV fill 
 	//
 	//! Fill the CSV-data with the number of black pixels on the vertical line (rows).
-	void csvVertical();
+	std::vector<int> csvVertical();
 };
 

@@ -7,11 +7,11 @@
 #include "charChecker.h"
 #include "splitLicensePlate.h"
 
-char chars[36] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+//char chars[36] = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 std::vector<int> csvDataCompareH = {0,3,5,7,8,8,8,8,7,7,7,5,4,2,0};
-std::vector<int> csvDataCompareV;
+std::vector<int> csvDataCompareV = { 1, 2, 5, 7, 8, 8, 8, 8, 7, 7, 7, 5, 4, 2, 0 };
 
-charChecker::charChecker(std::vector<int>& csvDataInput, bool hor){
+charChecker::charChecker(std::vector<int>& csvDataInputH, std::vector<int>& csvDataInputV, bool hor){
 	if (hor){
 		charChecker::horizontal = true;
 	}
@@ -19,10 +19,13 @@ charChecker::charChecker(std::vector<int>& csvDataInput, bool hor){
 		charChecker::horizontal = false;
 	}
 	for (int i = 0; i < 36; i++){
-		score[i] = 0;
+		scoreH[i] = 0;
+		scoreV[i] = 0;
 	}	
-	charChecker::csvData = csvDataInput;
-	charWidth = charChecker::csvData.size();
+	charChecker::csvDataH = csvDataInputH;
+	charChecker::csvDataV = csvDataInputV;
+	charWidthH = charChecker::csvDataH.size();
+	charWidthV = charChecker::csvDataH.size();
 }
 
 charChecker::~charChecker(){
@@ -53,23 +56,42 @@ void inter1parray(std::vector<int> a, int n, std::vector<int> b, int m)
 }
 
 char charChecker::process(){
-	inter1parray(csvData, charWidth, csvDataCompareH, csvDataCompareH.size());
+	inter1parray(csvDataH, charWidthH, csvDataCompareH, csvDataCompareH.size());
 	for (int j = 0; j < 36; j++){
 		// determine score for each character.
-		for (int i = 0; i < charWidth; i++){
-			if (charChecker::horizontal){
-				score[j] += abs(charChecker::csvData[i] - csvDataCompareH[i]);
-			}
-			else{
-				score[j] += abs(charChecker::csvData[i] - csvDataCompareV[i]);
-			}
+		for (int i = 0; i < charWidthH; i++){
+			scoreH[j] += abs(charChecker::csvDataH[i] - csvDataCompareH[i]);
+		}
+		for (int i = 0; i < charWidthV; i++){
+			scoreV[j] += abs(charChecker::csvDataV[i] - csvDataCompareV[i]);
 		}
 	}
-	int min = 99999;
+	int hor = 99999;
 	for (int i = 0; i < 36; i++){
-		if (score[i] < min){
-			min = i;
+		if (scoreH[i] < hor){
+			hor = i;
 		}
 	}
-	return chars[min];
+	int ver = 99999;
+	for (int i = 0; i < 36; i++){
+		if (scoreV[i] < ver){
+			ver = i;
+		}
+	}
+	int min = 0;
+	if (scoreH[hor] < scoreV[ver]){
+		min = hor;
+	}
+	else{
+		min = ver;
+	}
+	if (min < 26) {
+		//letter
+		min += 65;
+	}
+	else {
+		//number
+		min += 22;
+	}
+	return (min & 0xff);//chars[min];
 }

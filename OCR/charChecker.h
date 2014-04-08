@@ -14,11 +14,13 @@ class charChecker
 private:
 	char Char;
 	bool horizontal;
-	int score[36];
-	std::vector<int> csvData;
-	int intersectsV = 0, intersectsH = 0, numberPeaksH = 0, numberPeaksV = 0, charWidth = 0;
+	int scoreH[36];
+	int scoreV[36];
+	std::vector<int> csvDataH;
+	std::vector<int> csvDataV;
+	int intersectsV = 0, intersectsH = 0, numberPeaksH = 0, numberPeaksV = 0, charWidthH = 0, charWidthV = 0;
 public:
-	charChecker(std::vector<int>&, bool);
+	charChecker(std::vector<int>&, std::vector<int>&, bool);
 	~charChecker();
 	char& getChar();
 	char process();
