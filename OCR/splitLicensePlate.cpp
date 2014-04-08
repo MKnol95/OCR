@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <ostream>
 #include "GlobalDefines.h"
 #include <memory.h>
 #define NORMALIZED_WIDTH 15
@@ -25,9 +26,13 @@ splitLicensePlate::~splitLicensePlate()
 {
 }
 
-std::vector<int>& splitLicensePlate::getCSV()
+std::vector<int>& splitLicensePlate::getCSVH()
 {
-	return  csvData;
+	return csvDataH;
+}
+std::vector<int>& splitLicensePlate::getCSVV()
+{
+	return csvDataV;
 }
 
 std::vector<ImageGray> splitLicensePlate::ProcessImage()
@@ -40,17 +45,17 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 	int countL = 0, countR = 0, areaFound = 0, above = 0, under = 0;
 	splitLicensePlate::csvVertical();
 	for (int i = 1; i < height; i++){
-		if (csvData[i] == 0){
+		if (csvDataV[i] == 0){
 			continue;
 		}
 		else{
-			if (csvData[i - 1] == 0) // vergelijking met de pixel ervoor.
+			if (csvDataV[i - 1] == 0) // vergelijking met de pixel ervoor.
 			{
 				above = i;
 				continue;
 			}
 			else if(i+1 < height){
-				if (csvData[i + 1] == 0){
+				if (csvDataV[i + 1] == 0){
 					under = i;
 					break;
 				}
@@ -59,7 +64,7 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 	}
 	splitLicensePlate::csvHorizontal();
 	for (int i = 0; i < width; i++){
-		if (csvData[i] == 0) {
+		if (csvDataH[i] == 0) {
 			continue;
 		}
 		if (i == 0) // eerste run
@@ -68,13 +73,13 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 			countL++;
 		}
 		else {
-			if (csvData[i - 1] == 0) { // vergelijking met de pixel ervoor.
+			if (csvDataH[i - 1] == 0) { // vergelijking met de pixel ervoor.
 				borderLeft[countL] = i;
 				countL++;
 				continue;
 			}
 			if (i != (width - 1)) { //not last index
-				if (csvData[i + 1] == 0) { // vergelijking mer de pixel erna
+				if (csvDataH[i + 1] == 0) { // vergelijking mer de pixel erna
 					if (i < width){
 						borderRight[countR] = i + 1;
 						countR++;
@@ -109,52 +114,53 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 
 void splitLicensePlate::WriteCSV(int x, int y)
 {
+	std::ofstream CSVWriter;
 	if (x == 0 && y == 0){
 		std::string path = "C:\\Images\\Split_Histogram.csv";
-		CSV.open(path);
+		CSVWriter.open(path);
 		for (int i = 0; i < width; i++)
 		{
-			int normalized = ((int)csvData[i]);
-			CSV << i << ";" << normalized << "\n";
+			int normalized = ((int)csvDataH[i]);
+			CSVWriter << i << ";" << normalized << "\n";
 		}
-		CSV.close();
+		CSVWriter.close();
 	}
 	else if (x == 1){
 		std::string path = "C:\\Images\\horizontal_histogram";
 		path += std::to_string(y);
 		path += ".csv";
-		CSV.open(path);
+		CSVWriter.open(path);
 		for (int i = 0; i < width; i++)
 		{
-			int normalized = ((int)csvData[i]);
-			CSV << i << ";" << normalized << "\n";
+			float normalized = ((float)csvDataH[i]);
+			CSVWriter << i << ";" << normalized << "\n";
 		}
-		CSV.close();
+		CSVWriter.close();
 	}
 	else if (x == 2){
 		std::string path = "C:\\Images\\vertical_histogram";
 		path += std::to_string(y);
 		path += ".csv";
-		CSV.open(path);
+		CSVWriter.open(path);
 		for (int i = 0; i < height; i++)
 		{
-			int normalized = ((int)csvData[i]);
-			CSV << i << ";" << normalized << "\n";
+			float normalized = ((float)csvDataV[i]);
+			CSVWriter << i << ";" << normalized << "\n";
 		}
-		CSV.close();
+		CSVWriter.close();
 	}
 }
 
-std::vector<int> splitLicensePlate::csvHorizontal(){
-	csvData = std::vector<int>(width);
+void splitLicensePlate::csvHorizontal(){
+	csvDataH = std::vector<int>(width);
 	for (int i = 0; i < width; i++){
-		csvData[i] = 0;
+		csvDataH[i] = 0;
 	}
 	for (int i = 0; i < width; i++){
 		for (int j = 0; j < height; j++){
 			byte whiteOrBlack = image->at(i, j);
 			if (whiteOrBlack == 0){
-				csvData[i] += 1;
+				csvDataH[i] += 1;
 			}
 		}
 	}
@@ -162,15 +168,15 @@ std::vector<int> splitLicensePlate::csvHorizontal(){
 }
 
 void splitLicensePlate::csvVertical(){
-	csvData = std::vector<int>(height);
+	csvDataV = std::vector<int>(height);
 	for (int i = 0; i < height; i++){
-		csvData[i] = 0;
+		csvDataV[i] = 0;
 	}
 	for (int i = 0; i < height; i++){
 		for (int j = 0; j < width; j++){
 			byte whiteOrBlack = image->at(j, i);
 			if (whiteOrBlack == 0){
-				csvData[i] += 1;
+				csvDataV[i] += 1;
 			}
 		}
 	}

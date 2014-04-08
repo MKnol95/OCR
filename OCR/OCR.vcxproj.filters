@@ -21,9 +21,6 @@
     <ClInclude Include="splitLicensePlate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalDefines.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="imageLib\Image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
