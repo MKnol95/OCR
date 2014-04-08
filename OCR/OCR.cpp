@@ -1,5 +1,6 @@
 #include <vector>
 #include <memory>
+#include <iostream>
 #include "imageLib\ImageLoader.h"
 #include "imageLib\ImageRGB.h"
 #include "imageLib\ImageGray.h"
@@ -11,8 +12,8 @@ using namespace ImageLib;
 int main(int argc, char *argv[])
 {
 	// the example kenteken.png has to be in the folder C:\Images
-	Data::getInstance().initializeDefines(argv);
-	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\alle.png"));
+	//Data::getInstance().initializeDefines(argv);
+	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\kenteken.png"));
 	splitLicensePlate* makeSplit = new splitLicensePlate(image);
 	std::vector<ImageGray> characters = makeSplit->ProcessImage();
 	int number = 0;
@@ -40,13 +41,14 @@ int main(int argc, char *argv[])
 		path += ".png";
 		std::unique_ptr<ImageGray> image(loadImg(path));
 		splitLicensePlate* makeCsvHorizontal = new splitLicensePlate(image);
-		makeCsvHorizontal->csvHorizontal();
-		charChecker checker = charChecker(makeCsvHorizontal->getCSV());
-		checker.process();
+		charChecker check((makeCsvHorizontal->csvHorizontal()), true);
+		std::cout << check.process();
 		makeCsvHorizontal->WriteCSV(1,i);
 		splitLicensePlate* makeCsvVertical = new splitLicensePlate(image);
 		makeCsvVertical->csvVertical();
 		makeCsvVertical->WriteCSV(2,i);
 	}
+	int bah;
+	std::cin >> bah;
 	return 0;
 }

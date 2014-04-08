@@ -8,6 +8,8 @@
 #include <fstream>
 #include "GlobalDefines.h"
 #include <memory.h>
+#define NORMALIZED_WIDTH 15
+#define NORMALIZED_HEIGHT 30
 
 using namespace ImageLib;
 
@@ -124,7 +126,7 @@ void splitLicensePlate::WriteCSV(int x, int y)
 		CSV.open(path);
 		for (int i = 0; i < width; i++)
 		{
-			float normalized = ((float)csvData[i]);
+			int normalized = ((int)csvData[i]);
 			CSV << i << ";" << normalized << "\n";
 		}
 		CSV.close();
@@ -136,14 +138,14 @@ void splitLicensePlate::WriteCSV(int x, int y)
 		CSV.open(path);
 		for (int i = 0; i < height; i++)
 		{
-			float normalized = ((float)csvData[i]);
+			int normalized = ((int)csvData[i]);
 			CSV << i << ";" << normalized << "\n";
 		}
 		CSV.close();
 	}
 }
 
-void splitLicensePlate::csvHorizontal(){
+std::vector<int> splitLicensePlate::csvHorizontal(){
 	csvData = std::vector<int>(width);
 	for (int i = 0; i < width; i++){
 		csvData[i] = 0;
@@ -156,6 +158,7 @@ void splitLicensePlate::csvHorizontal(){
 			}
 		}
 	}
+	return csvData;
 }
 
 void splitLicensePlate::csvVertical(){

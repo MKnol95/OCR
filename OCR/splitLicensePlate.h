@@ -53,7 +53,7 @@ public:
 	//! horizontal CSV fill 
 	//
 	//! Fill the CSV-data with the number of black pixels on the horizontal line (columns).
-	void splitLicensePlate::csvHorizontal();
+	std::vector<int> splitLicensePlate::csvHorizontal();
 	//! vertical CSV fill 
 	//
 	//! Fill the CSV-data with the number of black pixels on the vertical line (rows).
