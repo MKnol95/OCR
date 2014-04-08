@@ -1,5 +1,7 @@
 #include "OCRPatternMatching.h"
 #include "imageLib\ImageLoader.h"
+#include <iostream>
+#include <iomanip>
 
 ImageGray OCRPatternMatching::Resample(ImageGray& input, int newWidth, int newHeight)
 {
@@ -30,7 +32,7 @@ OCRPatternMatching::OCRPatternMatching()
 }
 
 unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
-	signed int score[NUMBER_OF_CHARACTERS] = { };
+	float score[NUMBER_OF_CHARACTERS] = { };
 	unsigned int index = 0;
 	for (std::unique_ptr<ImageGray>& sample : referenceImages) {
 		ImageGray resized = Resample(character, sample->width(), sample->height());
@@ -53,20 +55,22 @@ unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
 		//DONE*/
 
 		//resized input image has the same size as our sample from here
-		for (int h = 0; h < sample->height(); h++) {
-			for (int w = 0; w < sample->width(); w++) {
+		for (unsigned int h = 0; h < sample->height(); h++) {
+			for (unsigned int w = 0; w < sample->width(); w++) {
 				if (sample->at(w, h) == resized.at(w, h)) {
 					score[index] += 1;
 				}
-				else {
+				/*else {
 					score[index] -= 2;
-				}
+				}*/
 			}
 		}
+		score[index] = (float)score[index] / (resized.width() * resized.height()) * 100; //percentage
+		//score[index] = score[index] / (resized.width() * resized.height());
 		++index;
 	}
 	int highestIndex = 0;
-	signed int highestValue = 0;
+	float highestValue = 0;
 	for (int i = 0; i < NUMBER_OF_CHARACTERS; i++) {
 		if (score[i] > highestValue) {
 			highestValue = score[i];
@@ -85,5 +89,7 @@ unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
 		//number
 		highestIndex += 21;
 	}
+
+	std::cout << std::setprecision(4) <<std::fixed << highestValue << "%\t";
 	return (highestIndex & 0xff);//chars[min];
 }

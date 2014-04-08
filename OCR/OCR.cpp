@@ -17,10 +17,9 @@ using namespace ImageLib;
 
 int main(int argc, char *argv[])
 {
-	//char test[2] = { 4, 3 };
-	// the example kenteken.png has to be in the folder C:\Images
-	//Data::getInstance().initializeDefines(argv);
-
+	//Rick, Marco, Michael: Gebruik images.rar in THO7 map. Deze bevat de indeling en samples van C:\images\.
+	int successCount = 0;
+	int failCount = 0;
 	DIR *pDIR;
 	struct dirent *entry;
 	if (pDIR = opendir("C:\\Images\\recognize\\")){
@@ -29,13 +28,14 @@ int main(int argc, char *argv[])
 				std::string filename = entry->d_name;
 				if (filename.substr(filename.length() - 4, 4) != ".png")
 					continue;
+				std::string antwoord = filename.substr(0, 8);
 				std::cout << "Start recognition of " << filename << std::endl;
 				std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\recognize\\" + filename));
 				splitLicensePlate* makeSplit = new splitLicensePlate(*image);
 				std::vector<ImageGray> characters = makeSplit->ProcessImage();
 				//save image 
 				int number = 0;
-				for (ImageGray &character : characters) {
+				/*for (ImageGray &character : characters) {
 					corona::Image* destination = corona::CreateImage(character.width(), character.height(), corona::PF_R8G8B8);
 					unsigned char * pixels = (unsigned char*)destination->getPixels();
 					//unsigned char * pixels = new unsigned char[character.width() * character.height() * 3];
@@ -53,9 +53,10 @@ int main(int argc, char *argv[])
 					++number;
 				}
 				makeSplit->WriteCSV(0, 0);
-
+				*/
 				//char recognition starts here
 				OCRPatternMatching matching;
+				std::string kenteken;
 				number = 0;
 				for (ImageGray &character : characters) {
 					char sdgh = matching.Recognize(character);
@@ -66,9 +67,16 @@ int main(int argc, char *argv[])
 					makeCsv->WriteCSV(1, number);
 					makeCsv->WriteCSV(2, number);
 					char sdgh = checker.process();*/
-
-					std::cout << number << "\t" << sdgh << std::endl;
+					kenteken += sdgh;
+					std::cout << sdgh << std::endl;
 					++number;
+				}
+				if (antwoord != kenteken) {
+					failCount++;
+					std::cout << "MISMATCH" << std::endl;
+				}
+				else {
+					successCount++;
 				}
 				
 
@@ -76,6 +84,7 @@ int main(int argc, char *argv[])
 		}
 		closedir(pDIR);
 	}
+	std::cout << "RESULT: success: " << successCount << " failed: " << failCount << std::endl;
 
 	int bah;
 	std::cin >> bah;
