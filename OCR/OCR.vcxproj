@@ -83,7 +83,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="charChecker.h" />
-    <ClInclude Include="GlobalDefines.h" />
     <ClInclude Include="imageLib\Image.h" />
     <ClInclude Include="imageLib\ImageGray.h" />
     <ClInclude Include="imageLib\ImageLoader.h" />

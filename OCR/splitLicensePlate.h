@@ -18,14 +18,14 @@ class splitLicensePlate
 private:
 	//! @var image Unique pointer to the real address (reference) of image.
 	std::unique_ptr<ImageGray> &image;
-	//! @var CSV outputstream for CSV
-	std::ofstream CSV;
 	//! @var ImageSurface is the total number of pixels.
 	//! @var Height is the height of the image.
 	//! @var Width is the width of the image.
 	int imageSurface, height, width;
-	//! @var csvData is the vector of the csvData.
-	std::vector<int> csvData;
+	//! @var csvData is the vector of the csvData horizontal.
+	std::vector<int> csvDataH;
+	//! @var csvData is the vector of the csvData vertical.
+	std::vector<int> csvDataV;
 public:
 	//! SplitLicensePlate constructor
 	//
@@ -39,24 +39,28 @@ public:
 	//! Get the CSV-pointer
 	//
 	//! Return the pointer to the array of the CSV data. 
-	std::vector<int>& getCSV();
+	std::vector<int>& getCSVH();
+	//! Get the CSV-pointer
+	//
+	//! Return the pointer to the array of the CSV data. 
+	std::vector<int>& getCSVV();
 	//! Process the splitLicensePlate-object
 	//
 	//! This function cuts the characters out of the image and fills the csvData with the number of black pixels. 
-	std::vector<ImageGray> splitLicensePlate::ProcessImage();
+	std::vector<ImageGray> ProcessImage();
 	//! Write CSV 
 	//
 	//! @param x is the csv-genre: total horizontal (0), horizontal (1) or vertical (2). 
 	//! @param y is the number of the character. 
 	//! Write the CSV-files for the total horizontal image, the horizontal per char and the vertical per char.
-	void splitLicensePlate::WriteCSV(int x,int y);
+	void WriteCSV(int x,int y);
 	//! horizontal CSV fill 
 	//
 	//! Fill the CSV-data with the number of black pixels on the horizontal line (columns).
-	void splitLicensePlate::csvHorizontal();
+	void csvHorizontal();
 	//! vertical CSV fill 
 	//
 	//! Fill the CSV-data with the number of black pixels on the vertical line (rows).
-	void splitLicensePlate::csvVertical();
+	void csvVertical();
 };
 

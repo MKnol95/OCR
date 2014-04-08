@@ -15,13 +15,13 @@ private:
 	char Char;
 	int intersectsV = 0, intersectsH = 0, numberPeaks = 0, charWidth = 0;
 public:
-	charChecker(std::vector<int>&);
+	charChecker(std::vector<int>&, std::vector<int>&);
 	~charChecker();
-	char& charChecker::getChar();
-	void charChecker::process();
-	int charChecker::bucketPeaks(bool);
-	int charChecker::bucketSize();
-	int charChecker::specificationHorizontalMiddleLine();
-	int charChecker::specificationVerticalMiddleLine();
+	char& getChar();
+	void process();
+	int bucketPeaks(bool);
+	int bucketSize();
+	int specificationHorizontalMiddleLine();
+	int specificationVerticalMiddleLine();
 };
 

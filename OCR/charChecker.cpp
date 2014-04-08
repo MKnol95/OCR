@@ -6,12 +6,10 @@
 #include <vector>
 #include "charChecker.h"
 
-charChecker::charChecker(std::vector<int>& element){
-
+charChecker::charChecker(std::vector<int>& csvDataH, std::vector<int>& csvDataV){
 }
 
 charChecker::~charChecker(){
-
 }
 
 char& charChecker::getChar(){
@@ -19,6 +17,8 @@ char& charChecker::getChar(){
 }
 
 void charChecker::process(){
+	bucketSize();
+
 
 }
 
