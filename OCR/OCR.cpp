@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 	//char test[2] = { 4, 3 };
 	// the example kenteken.png has to be in the folder C:\Images
 	//Data::getInstance().initializeDefines(argv);
-	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\chars.png"));
+	std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\genkent.png"));
 	splitLicensePlate* makeSplit = new splitLicensePlate(*image);
 	std::vector<ImageGray> characters = makeSplit->ProcessImage();
 	//save image 
@@ -37,6 +37,19 @@ int main(int argc, char *argv[])
 		++number;
 	}
 	makeSplit->WriteCSV(0, 0);
+
+	number = 0;
+	for (ImageGray &character : characters) {
+		std::ofstream myfile;
+		myfile.open("C:\\Images\\PATTERN" + std::to_string(number) + ".txt");
+
+		myfile << "Writing this to a file.\n";
+		myfile.close();
+		++number;
+	}
+
+
+
 	//char recognition starts here
 	number = 0;
 	for (ImageGray &character : characters) {

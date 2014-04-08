@@ -3,9 +3,5 @@
 
 OCRPatternMatching::OCRPatternMatching()
 {
-}
 
-
-OCRPatternMatching::~OCRPatternMatching()
-{
 }
