@@ -9,8 +9,8 @@
 
 using namespace ImageLib;
 #define NUMBER_OF_CHARACTERS 37
-#define HORIZONTAL_HISTOGRAM_SIZE 15
-#define VERTICAL_HISTOGRAM_SIZE 18
+#define HORIZONTAL_HISTOGRAM_SIZE 30 //15
+#define VERTICAL_HISTOGRAM_SIZE 36 //18
 
 class charChecker
 {
