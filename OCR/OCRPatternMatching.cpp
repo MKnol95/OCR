@@ -2,7 +2,6 @@
 #include "imageLib\ImageLoader.h"
 #include <iostream>
 #include <iomanip>
-#define findCharPercentage 99
 
 ImageGray OCRPatternMatching::Resample(ImageGray& input, int newWidth, int newHeight)
 {
@@ -26,7 +25,7 @@ ImageGray OCRPatternMatching::Resample(ImageGray& input, int newWidth, int newHe
 
 OCRPatternMatching::OCRPatternMatching()
 {
-	lastDetection = 0;
+	lastDetection = LAST_FOUND_STRIPE;
 	referenceImages = std::vector<std::unique_ptr<ImageGray>>(NUMBER_OF_CHARACTERS);
 	for (int i = 0; i < NUMBER_OF_CHARACTERS; i++) {
 		referenceImages[i] = loadImg("C:\\Images\\font\\" + std::to_string(i) + ".png");
@@ -34,7 +33,7 @@ OCRPatternMatching::OCRPatternMatching()
 }
 
 void OCRPatternMatching::StartNewLicenseplate() {
-	lastDetection = 0;
+	lastDetection = LAST_FOUND_STRIPE;
 }
 
 unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
@@ -72,7 +71,7 @@ unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
 			}
 		}
 		score[index] = (float)score[index] / (resized.width() * resized.height()) * 100; //percentage
-		if (score[index] > findCharPercentage)
+		if (score[index] > FIND_CHAR_PERCENTAGE)
 			break;
 		//score[index] = score[index] / (resized.width() * resized.height());
 		++index;
@@ -87,43 +86,43 @@ unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
 	}
 
 	int charIndex;
-	if (highestIndex < 26) {
+	if (highestIndex < CHAR_INDEX_SIZE) {
 		//letter
-		charIndex = highestIndex + 65;
+		charIndex = highestIndex + ASCII_CONVERT_LETTER;
 	}
-	else if (highestIndex == 26) {
-		charIndex = highestIndex + 19; //-
+	else if (highestIndex == CHAR_INDEX_SIZE) {
+		charIndex = highestIndex + ASCII_CONVERT_STRIPE; //-
 	}
 	else {
 		//number
-		charIndex = highestIndex + 21;
+		charIndex = highestIndex + ASCII_CONVERT_NUMBER;
 	}
 	char output = (charIndex & 0xff);
 	if (output == '-')
-		lastDetection = 0;
+		lastDetection = LAST_FOUND_STRIPE;
 	else {
-		if (highestIndex < 26 && lastDetection == 2) {
+		if (highestIndex < CHAR_INDEX_SIZE && lastDetection == LAST_FOUND_NUMBER) {
 			//found letter and our last detection was number
 			//not possible
 			if (output == 'O' || output == 'Q')
 				output = '0';
 		}
-		else if (highestIndex > 26 && lastDetection == 1) {
+		else if (highestIndex > CHAR_INDEX_SIZE && lastDetection == LAST_FOUND_LETTER) {
 			//found number and our last detection was letter
 			//not possible
 			if (output == '0') {
-				if (score[14] > score[16]) 
+				if (score[O_INDEX] > score[Q_INDEX]) 
 					output = 'O';
 				else 
 					output = 'Q';
 			}
 		}
 		else {
-			if (highestIndex < 26) {
-				lastDetection = 1; //set last found to letter
+			if (highestIndex < CHAR_INDEX_SIZE) {
+				lastDetection = LAST_FOUND_LETTER; //set last found to letter
 			}
 			else {
-				lastDetection = 2; //set last found to number
+				lastDetection = LAST_FOUND_NUMBER; //set last found to number
 			}
 		}
 	}
