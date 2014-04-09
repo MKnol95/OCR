@@ -21,9 +21,9 @@ private:
 	unsigned char lastDetection;
 	std::vector<std::unique_ptr<ImageGray>> referenceImages;
 	ImageGray Resample(ImageGray& input, int newWidth, int newHeight);
+	unsigned char Recognize(ImageGray& character);
 public:
 	OCRPatternMatching();
-	void StartNewLicenseplate();
-	unsigned char Recognize(ImageGray& character);
+	std::string RecognizeLicenseplate(std::vector<ImageGray>& chars);
 };
 

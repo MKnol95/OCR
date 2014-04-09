@@ -84,18 +84,18 @@ int main(int argc, char *argv[])
 				makeSplit->WriteCSV(0, 0);
 				*/
 				//char recognition starts here
-				matching.StartNewLicenseplate();
-				std::string kenteken;
-				number = 0;
+
+				std::string kenteken = matching.RecognizeLicenseplate(characters);
+				/*number = 0;
 				for (ImageGray &character : characters) {
 					char yolo = matching.Recognize(character);
 
-					/*
+					
 					splitLicensePlate* makeCsv = new splitLicensePlate(character);
 					charChecker checker = charChecker(makeCsv->csvHorizontal(), character.height(), makeCsv->csvVertical(), true);
 					makeCsv->WriteCSV(1, number);
 					makeCsv->WriteCSV(2, number);
-					char sdgh = checker.process();*/
+					char sdgh = checker.process();
 					if (number == 0 && yolo == '-'){
 						std::cout << std::endl;
 						continue;
@@ -107,7 +107,8 @@ int main(int argc, char *argv[])
 					kenteken += yolo;
 					std::cout << yolo << std::endl;
 					++number;
-				}
+				}*/
+				std::cout << "LICENSE PLATE: " << kenteken << std::endl;
 				if (antwoord != kenteken) {
 					failCount++;
 					std::cout << "MISMATCH" << std::endl;
@@ -116,8 +117,6 @@ int main(int argc, char *argv[])
 				else {
 					successCount++;
 				}
-				
-
 			}
 		}
 		closedir(pDIR);

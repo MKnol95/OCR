@@ -32,9 +32,40 @@ OCRPatternMatching::OCRPatternMatching()
 	}
 }
 
-void OCRPatternMatching::StartNewLicenseplate() {
+std::string OCRPatternMatching::RecognizeLicenseplate(std::vector<ImageGray>& chars) {
 	lastDetection = LAST_FOUND_STRIPE;
+	std::string kenteken;
+	int number = 0;
+	for (ImageGray &character : chars) {
+		char yolo = Recognize(character);
+		if (number == 0 && yolo == '-'){
+			std::cout << std::endl;
+			continue;
+		}
+		else if (number > 7 && yolo == '-'){
+			std::cout << std::endl;
+			break;
+		}
+		std::cout << yolo << std::endl;
+		if (kenteken.length() > 0) {
+			char prevChar = kenteken.at(kenteken.length() - 1);
+			if (prevChar >= '0' && prevChar <= '9' && yolo >= 'A' && yolo <= 'Z' && yolo != 'O' && yolo != 'Q')
+			{
+				//previous is a number and current is a letter (not O or Q).
+				char recheck = Recognize(chars[number - 1]);
+				if (recheck != prevChar) {
+					kenteken.erase(kenteken.size() - 1, 1);
+					kenteken += recheck;
+					std::cout << recheck << std::endl;
+				}
+			}
+		}
+		kenteken += yolo;
+		++number;
+	}
+	return kenteken;
 }
+
 
 unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
 	float score[NUMBER_OF_CHARACTERS] = { };
@@ -101,21 +132,18 @@ unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
 	if (output == '-')
 		lastDetection = LAST_FOUND_STRIPE;
 	else {
-		if (highestIndex < CHAR_INDEX_SIZE && lastDetection == LAST_FOUND_NUMBER) {
-			//found letter and our last detection was number
+		if (highestIndex < CHAR_INDEX_SIZE && lastDetection == LAST_FOUND_NUMBER && (output == 'O' || output == 'Q')) {
+			//found letter O or Q and our last detection was number
 			//not possible
-			if (output == 'O' || output == 'Q')
-				output = '0';
+			output = '0';
 		}
-		else if (highestIndex > CHAR_INDEX_SIZE && lastDetection == LAST_FOUND_LETTER) {
-			//found number and our last detection was letter
+		else if (highestIndex > CHAR_INDEX_SIZE && lastDetection == LAST_FOUND_LETTER && output == '0') {
+			//found number 0 and our last detection was letter
 			//not possible
-			if (output == '0') {
-				if (score[O_INDEX] > score[Q_INDEX]) 
-					output = 'O';
-				else 
-					output = 'Q';
-			}
+			if (score[O_INDEX] > score[Q_INDEX]) 
+				output = 'O';
+			else 
+				output = 'Q';
 		}
 		else {
 			if (highestIndex < CHAR_INDEX_SIZE) {
