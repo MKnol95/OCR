@@ -25,10 +25,15 @@ ImageGray OCRPatternMatching::Resample(ImageGray& input, int newWidth, int newHe
 
 OCRPatternMatching::OCRPatternMatching()
 {
+	lastDetection = LAST_FOUND_STRIPE;
 	referenceImages = std::vector<std::unique_ptr<ImageGray>>(NUMBER_OF_CHARACTERS);
 	for (int i = 0; i < NUMBER_OF_CHARACTERS; i++) {
 		referenceImages[i] = loadImg("C:\\Images\\font\\" + std::to_string(i) + ".png");
 	}
+}
+
+void OCRPatternMatching::StartNewLicenseplate() {
+	lastDetection = LAST_FOUND_STRIPE;
 }
 
 unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
@@ -66,6 +71,8 @@ unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
 			}
 		}
 		score[index] = (float)score[index] / (resized.width() * resized.height()) * 100; //percentage
+		if (score[index] > FIND_CHAR_PERCENTAGE)
+			break;
 		//score[index] = score[index] / (resized.width() * resized.height());
 		++index;
 	}
@@ -78,18 +85,47 @@ unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
 		}
 	}
 
-	if (highestIndex < 26) {
+	int charIndex;
+	if (highestIndex < CHAR_INDEX_SIZE) {
 		//letter
-		highestIndex += 65;
+		charIndex = highestIndex + ASCII_CONVERT_LETTER;
 	}
-	else if (highestIndex == 26) {
-		highestIndex += 19; //-
+	else if (highestIndex == CHAR_INDEX_SIZE) {
+		charIndex = highestIndex + ASCII_CONVERT_STRIPE; //-
 	}
 	else {
 		//number
-		highestIndex += 21;
+		charIndex = highestIndex + ASCII_CONVERT_NUMBER;
 	}
-
+	char output = (charIndex & 0xff);
+	if (output == '-')
+		lastDetection = LAST_FOUND_STRIPE;
+	else {
+		if (highestIndex < CHAR_INDEX_SIZE && lastDetection == LAST_FOUND_NUMBER) {
+			//found letter and our last detection was number
+			//not possible
+			if (output == 'O' || output == 'Q')
+				output = '0';
+		}
+		else if (highestIndex > CHAR_INDEX_SIZE && lastDetection == LAST_FOUND_LETTER) {
+			//found number and our last detection was letter
+			//not possible
+			if (output == '0') {
+				if (score[O_INDEX] > score[Q_INDEX]) 
+					output = 'O';
+				else 
+					output = 'Q';
+			}
+		}
+		else {
+			if (highestIndex < CHAR_INDEX_SIZE) {
+				lastDetection = LAST_FOUND_LETTER; //set last found to letter
+			}
+			else {
+				lastDetection = LAST_FOUND_NUMBER; //set last found to number
+			}
+		}
+	}
 	std::cout << std::setprecision(4) <<std::fixed << highestValue << "%\t";
-	return (highestIndex & 0xff);//chars[min];
+	return output;//chars[min];
 }

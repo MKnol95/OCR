@@ -7,6 +7,8 @@
 #include "charChecker.h"
 #include "splitLicensePlate.h"
 #include "OCRPatternMatching.h"
+#include <Windows.h>
+#include <WinBase.h>
 
 #include <cstdlib>
 #include "dirent.h"
@@ -49,6 +51,7 @@ int main(int argc, char *argv[])
 	DIR *pDIR;
 	struct dirent *entry;
 	if (pDIR = opendir("C:\\Images\\recognize\\")){
+		OCRPatternMatching matching;
 		while (entry = readdir(pDIR)){
 			if (strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0) {
 				std::string filename = entry->d_name;
@@ -81,11 +84,11 @@ int main(int argc, char *argv[])
 				makeSplit->WriteCSV(0, 0);
 				*/
 				//char recognition starts here
-				OCRPatternMatching matching;
+				matching.StartNewLicenseplate();
 				std::string kenteken;
 				number = 0;
 				for (ImageGray &character : characters) {
-					char sdgh = matching.Recognize(character);
+					char yolo = matching.Recognize(character);
 
 					/*
 					splitLicensePlate* makeCsv = new splitLicensePlate(character);
@@ -93,13 +96,22 @@ int main(int argc, char *argv[])
 					makeCsv->WriteCSV(1, number);
 					makeCsv->WriteCSV(2, number);
 					char sdgh = checker.process();*/
-					kenteken += sdgh;
-					std::cout << sdgh << std::endl;
+					if (number == 0 && yolo == '-'){
+						std::cout << std::endl;
+						continue;
+					}
+					else if (number > 7 && yolo == '-'){
+						std::cout << std::endl;
+						break;
+					}
+					kenteken += yolo;
+					std::cout << yolo << std::endl;
 					++number;
 				}
 				if (antwoord != kenteken) {
 					failCount++;
 					std::cout << "MISMATCH" << std::endl;
+					Beep(3000, 200);
 				}
 				else {
 					successCount++;
