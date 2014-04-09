@@ -37,19 +37,19 @@ std::string OCRPatternMatching::RecognizeLicenseplate(std::vector<ImageGray>& ch
 	std::string kenteken;
 	int number = 0;
 	for (ImageGray &character : chars) {
-		char yolo = Recognize(character);
-		if (number == 0 && yolo == '-'){
+		char recognizedCharacter = Recognize(character);
+		if (number == 0 && recognizedCharacter == '-'){
 			std::cout << std::endl;
 			continue;
 		}
-		else if (number > 7 && yolo == '-'){
+		else if (number > 7 && recognizedCharacter == '-'){
 			std::cout << std::endl;
 			break;
 		}
-		std::cout << yolo << std::endl;
+		std::cout << recognizedCharacter << std::endl;
 		if (kenteken.length() > 0) {
 			char prevChar = kenteken.at(kenteken.length() - 1);
-			if (prevChar >= '0' && prevChar <= '9' && yolo >= 'A' && yolo <= 'Z' && yolo != 'O' && yolo != 'Q')
+			if (prevChar >= '0' && prevChar <= '9' && recognizedCharacter >= 'A' && recognizedCharacter <= 'Z' && recognizedCharacter != 'O' && recognizedCharacter != 'Q')
 			{
 				//previous is a number and current is a letter (not O or Q).
 				char recheck = Recognize(chars[number - 1]);
@@ -60,7 +60,7 @@ std::string OCRPatternMatching::RecognizeLicenseplate(std::vector<ImageGray>& ch
 				}
 			}
 		}
-		kenteken += yolo;
+		kenteken += recognizedCharacter;
 		++number;
 	}
 	return kenteken;
@@ -122,7 +122,8 @@ unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
 		charIndex = highestIndex + ASCII_CONVERT_LETTER;
 	}
 	else if (highestIndex == CHAR_INDEX_SIZE) {
-		charIndex = highestIndex + ASCII_CONVERT_STRIPE; //-
+		//-
+		charIndex = highestIndex + ASCII_CONVERT_STRIPE;
 	}
 	else {
 		//number
@@ -145,12 +146,45 @@ unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
 			else 
 				output = 'Q';
 		}
+		else if (highestIndex < CHAR_INDEX_SIZE && lastDetection == LAST_FOUND_NUMBER && output == 'S') {
+			//found letter S and our last detection was number
+			//not possible
+			output = '5';
+		}
+		else if (highestIndex > CHAR_INDEX_SIZE && lastDetection == LAST_FOUND_LETTER && output == '5') {
+			//found number 5 and our last detection was letter
+			//not possible
+			output = 'S';
+		}
+		else if (highestIndex < CHAR_INDEX_SIZE && lastDetection == LAST_FOUND_NUMBER && output == 'B') {
+			//found letter B and our last detection was number
+			//not possible
+			output = '8';
+		}
+		else if (highestIndex > CHAR_INDEX_SIZE && lastDetection == LAST_FOUND_LETTER && output == '8') {
+			//found number 8 and our last detection was letter
+			//not possible
+			output = 'B';
+
+		}
+		else if (highestIndex < CHAR_INDEX_SIZE && lastDetection == LAST_FOUND_NUMBER && output == 'I') {
+			//found letter I and our last detection was number
+			//not possible
+			output = '1';
+		}
+		else if (highestIndex > CHAR_INDEX_SIZE && lastDetection == LAST_FOUND_LETTER && output == '1') {
+			//found number 1 and our last detection was letter
+			//not possible
+			output = 'I';
+		}
 		else {
 			if (highestIndex < CHAR_INDEX_SIZE) {
-				lastDetection = LAST_FOUND_LETTER; //set last found to letter
+				//set last found to letter
+				lastDetection = LAST_FOUND_LETTER;
 			}
 			else {
-				lastDetection = LAST_FOUND_NUMBER; //set last found to number
+				//set last found to number
+				lastDetection = LAST_FOUND_NUMBER;
 			}
 		}
 	}
