@@ -206,11 +206,11 @@ charChecker::charChecker(std::vector<int>& csvDataInputH, int height, std::vecto
 	inter1parray(csvDataInputH, true);
 	inter1parray(csvDataInputV, false);
 
-	float dimension = height / VERTICAL_HISTOGRAM_SIZE;
+	float dimension = (float)(height / VERTICAL_HISTOGRAM_SIZE);
 	if (dimension > 1) {
 		for (int i = 0; i < NUMBER_OF_CHARACTERS; i++) {
-			csvDataH[i] = csvDataH[i] / dimension;
-			csvDataV[i] = csvDataV[i] / dimension;
+			csvDataH[i] = (unsigned short)(csvDataH[i] / dimension);
+			csvDataV[i] = (unsigned short)(csvDataV[i] / dimension);
 		}
 	}
 
@@ -239,7 +239,7 @@ int interp1(float x, std::vector<int>& a, int n)
 	if (x <= 0)  return a[0];
 	if (x >= n - 1)  return a[n - 1];
 	int j = int(x);
-	return a[j] + (x - j) * (a[j + 1] - a[j]);
+	return (int)(a[j] + (x - j) * (a[j + 1] - a[j]));
 }
 
 // linear interpolate array a[] -> array b[]

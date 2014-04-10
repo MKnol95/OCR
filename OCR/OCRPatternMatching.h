@@ -20,7 +20,7 @@ class OCRPatternMatching
 private:
 	unsigned char lastDetection;
 	std::vector<std::unique_ptr<ImageGray>> referenceImages;
-	ImageGray Resample(ImageGray& input, int newWidth, int newHeight);
+	ImageGray Resample(ImageGray& input, short newWidth, short newHeight);
 	unsigned char Recognize(ImageGray& character);
 public:
 	OCRPatternMatching();

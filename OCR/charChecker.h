@@ -19,8 +19,8 @@ private:
 	bool horizontal;
 	int scoreH[NUMBER_OF_CHARACTERS];
 	int scoreV[NUMBER_OF_CHARACTERS];
-	unsigned char csvDataH[HORIZONTAL_HISTOGRAM_SIZE];
-	unsigned char csvDataV[VERTICAL_HISTOGRAM_SIZE];
+	unsigned short csvDataH[HORIZONTAL_HISTOGRAM_SIZE];
+	unsigned short csvDataV[VERTICAL_HISTOGRAM_SIZE];
 	int intersectsV = 0, intersectsH = 0, numberPeaksH = 0, numberPeaksV = 0;
 	void inter1parray(std::vector<int> a, bool horizontal);
 public:

@@ -12,12 +12,15 @@
 
 #include <cstdlib>
 #include "dirent.h"
+#if DEBUG
+	#include <vld.h>
+#endif
 
 using namespace ImageLib;
 
 
 
-int main(int argc, char *argv[])
+int main(short argc, char *argv[])
 {
 	/*
 	font creator
@@ -44,10 +47,8 @@ int main(int argc, char *argv[])
 		++number;
 	}
 	*/
-
-	//Rick, Marco, Michael: Gebruik images.rar in THO7 map. Deze bevat de indeling en samples van C:\images\.
-	int successCount = 0;
-	int failCount = 0;
+	unsigned short successCount = 0;
+	unsigned short failCount = 0;
 	DIR *pDIR;
 	struct dirent *entry;
 	if (pDIR = opendir("C:\\Images\\recognize\\")){
@@ -58,12 +59,12 @@ int main(int argc, char *argv[])
 				if (filename.substr(filename.length() - 4, 4) != ".png")
 					continue;
 				std::string antwoord = filename.substr(0, 8);
-				std::cout << "Start recognition of " << filename << std::endl;
+				//std::cout << "Start recognition of " << filename << std::endl;
 				std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\recognize\\" + filename));
 				splitLicensePlate* makeSplit = new splitLicensePlate(*image);
 				std::vector<ImageGray> characters = makeSplit->ProcessImage();
 				//save image 
-				int number = 0;
+				//unsigned char number = 0;
 				/*for (ImageGray &character : characters) {
 					corona::Image* destination = corona::CreateImage(character.width(), character.height(), corona::PF_R8G8B8);
 					unsigned char * pixels = (unsigned char*)destination->getPixels();
@@ -108,10 +109,11 @@ int main(int argc, char *argv[])
 					std::cout << yolo << std::endl;
 					++number;
 				}*/
-				std::cout << "LICENSE PLATE: " << kenteken << std::endl;
+				//std::cout << "LICENSE PLATE: " << kenteken << std::endl;
+				delete makeSplit;
 				if (antwoord != kenteken) {
 					failCount++;
-					std::cout << "MISMATCH" << std::endl;
+					//std::cout << "MISMATCH" << std::endl;
 					Beep(3000, 200);
 				}
 				else {
@@ -121,10 +123,7 @@ int main(int argc, char *argv[])
 		}
 		closedir(pDIR);
 	}
-	std::cout << "RESULT: success: " << successCount << " failed: " << failCount << std::endl;
-
-	int bah;
-	std::cin >> bah;
+	//std::cout << "RESULT: success: " << successCount << " failed: " << failCount << std::endl;
 	return 0;
 }
 

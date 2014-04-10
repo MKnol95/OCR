@@ -3,20 +3,20 @@
 #include <iostream>
 #include <iomanip>
 
-ImageGray OCRPatternMatching::Resample(ImageGray& input, int newWidth, int newHeight)
+inline ImageGray OCRPatternMatching::Resample(ImageGray& input, short newWidth, short newHeight)
 {
 	//
 	// Get a new buffer to interpolate into
 	ImageGray newData = ImageGray(newWidth, newHeight);
 
-	double scaleWidth = (double)newWidth / (double)input.width();
-	double scaleHeight = (double)newHeight / (double)input.height();
+	float scaleWidth = (float)newWidth / (float)input.width();
+	float scaleHeight = (float)newHeight / (float)input.height();
 
-	for (int cy = 0; cy < newHeight; cy++)
+	for (short cy = 0; cy < newHeight; cy++)
 	{
-		for (int cx = 0; cx < newWidth; cx++)
+		for (short cx = 0; cx < newWidth; cx++)
 		{
-			newData.at(cx, cy) = input.at((cx / scaleWidth), (cy / scaleHeight));
+			newData.at(cx, cy) = input.at((unsigned int)(cx / scaleWidth), (unsigned int)(cy / scaleHeight));
 		}
 	}
 	return newData;
@@ -27,7 +27,7 @@ OCRPatternMatching::OCRPatternMatching()
 {
 	lastDetection = LAST_FOUND_STRIPE;
 	referenceImages = std::vector<std::unique_ptr<ImageGray>>(NUMBER_OF_CHARACTERS);
-	for (int i = 0; i < NUMBER_OF_CHARACTERS; i++) {
+	for (unsigned char i = 0; i < NUMBER_OF_CHARACTERS; i++) {
 		referenceImages[i] = loadImg("C:\\Images\\font\\" + std::to_string(i) + ".png");
 	}
 }
@@ -35,9 +35,9 @@ OCRPatternMatching::OCRPatternMatching()
 std::string OCRPatternMatching::RecognizeLicenseplate(std::vector<ImageGray>& chars) {
 	lastDetection = LAST_FOUND_STRIPE;
 	std::string kenteken;
-	int number = 0;
+	unsigned char number = 0;
 	for (ImageGray &character : chars) {
-		char recognizedCharacter = Recognize(character);
+		unsigned char recognizedCharacter = Recognize(character);
 		if (number == 0 && recognizedCharacter == '-'){
 			std::cout << std::endl;
 			continue;
@@ -46,13 +46,13 @@ std::string OCRPatternMatching::RecognizeLicenseplate(std::vector<ImageGray>& ch
 			std::cout << std::endl;
 			break;
 		}
-		std::cout << recognizedCharacter << std::endl;
+		//std::cout << recognizedCharacter << std::endl;
 		if (kenteken.length() > 0) {
-			char prevChar = kenteken.at(kenteken.length() - 1);
+			unsigned char prevChar = kenteken.at(kenteken.length() - 1);
 			if (prevChar >= '0' && prevChar <= '9' && recognizedCharacter >= 'A' && recognizedCharacter <= 'Z' && recognizedCharacter != 'O' && recognizedCharacter != 'Q')
 			{
 				//previous is a number and current is a letter (not O or Q).
-				char recheck = Recognize(chars[number - 1]);
+				unsigned char recheck = Recognize(chars[number - 1]);
 				if (recheck != prevChar) {
 					kenteken.erase(kenteken.size() - 1, 1);
 					kenteken += recheck;
@@ -67,9 +67,9 @@ std::string OCRPatternMatching::RecognizeLicenseplate(std::vector<ImageGray>& ch
 }
 
 
-unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
+inline unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
 	float score[NUMBER_OF_CHARACTERS] = { };
-	unsigned int index = 0;
+	unsigned short index = 0;
 	for (std::unique_ptr<ImageGray>& sample : referenceImages) {
 		ImageGray resized = Resample(character, sample->width(), sample->height());
 
@@ -91,8 +91,8 @@ unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
 		//DONE*/
 
 		//resized input image has the same size as our sample from here
-		for (unsigned int h = 0; h < sample->height(); h++) {
-			for (unsigned int w = 0; w < sample->width(); w++) {
+		for (unsigned short h = 0; h < sample->height(); h++) {
+			for (unsigned short w = 0; w < sample->width(); w++) {
 				if (sample->at(w, h) == resized.at(w, h)) {
 					score[index] += 1;
 				}
@@ -107,16 +107,16 @@ unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
 		//score[index] = score[index] / (resized.width() * resized.height());
 		++index;
 	}
-	int highestIndex = 0;
+	short highestIndex = 0;
 	float highestValue = 0;
-	for (int i = 0; i < NUMBER_OF_CHARACTERS; i++) {
+	for (unsigned char i = 0; i < NUMBER_OF_CHARACTERS; i++) {
 		if (score[i] > highestValue) {
 			highestValue = score[i];
 			highestIndex = i;
 		}
 	}
 
-	int charIndex;
+	unsigned char charIndex;
 	if (highestIndex < CHAR_INDEX_SIZE) {
 		//letter
 		charIndex = highestIndex + ASCII_CONVERT_LETTER;
@@ -188,6 +188,6 @@ unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
 			}
 		}
 	}
-	std::cout << std::setprecision(4) <<std::fixed << highestValue << "%\t";
+	//std::cout << std::setprecision(4) <<std::fixed << highestValue << "%\t";
 	return output;//chars[min];
 }
