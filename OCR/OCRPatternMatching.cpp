@@ -5,7 +5,6 @@
 
 inline ImageGray OCRPatternMatching::Resample(ImageGray& input, short newWidth, short newHeight)
 {
-	//
 	// Get a new buffer to interpolate into
 	ImageGray newData = ImageGray(newWidth, newHeight);
 
@@ -46,7 +45,7 @@ std::string OCRPatternMatching::RecognizeLicenseplate(std::vector<ImageGray>& ch
 			std::cout << std::endl;
 			break;
 		}
-		std::cout << recognizedCharacter << std::endl;
+		//std::cout << recognizedCharacter << std::endl;
 		if (kenteken.length() > 0) {
 			unsigned char prevChar = kenteken.at(kenteken.length() - 1);
 			if (prevChar >= '0' && prevChar <= '9' && recognizedCharacter >= 'A' && recognizedCharacter <= 'Z' && recognizedCharacter != 'O' && recognizedCharacter != 'Q')
@@ -72,24 +71,6 @@ inline unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
 	unsigned short index = 0;
 	for (std::unique_ptr<ImageGray>& sample : referenceImages) {
 		ImageGray resized = Resample(character, sample->width(), sample->height());
-
-		/*/SAVE TEMP
-		corona::Image* destination = corona::CreateImage(resized.width(), resized.height(), corona::PF_R8G8B8);
-		unsigned char * pixels = (unsigned char*)destination->getPixels();
-		//unsigned char * pixels = new unsigned char[character.width() * character.height() * 3];
-		int count = 0;
-		for (std::vector<unsigned char>::iterator it = resized.begin(); it != resized.end(); ++it) {
-			pixels[count] = *it;
-			pixels[count + 1] = *it;
-			pixels[count + 2] = *it;
-			count += 3;
-		}
-		std::string path = "C:\\Images\\RESIZE";
-		path += std::to_string(index);
-		path += ".png";
-		corona::SaveImage(path.c_str(), corona::FF_PNG, destination);
-		//DONE*/
-
 		//resized input image has the same size as our sample from here
 		for (unsigned short h = 0; h < sample->height(); h++) {
 			for (unsigned short w = 0; w < sample->width(); w++) {
@@ -188,6 +169,6 @@ inline unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
 			}
 		}
 	}
-	std::cout << std::setprecision(4) <<std::fixed << highestValue << "%\t";
-	return output;//chars[min];
+	//std::cout << std::setprecision(4) <<std::fixed << highestValue << "%\t";
+	return output;
 }
