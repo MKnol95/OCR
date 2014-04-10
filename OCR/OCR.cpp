@@ -59,7 +59,7 @@ int main(short argc, char *argv[])
 				if (filename.substr(filename.length() - 4, 4) != ".png")
 					continue;
 				std::string antwoord = filename.substr(0, 8);
-				//std::cout << "Start recognition of " << filename << std::endl;
+				std::cout << "Start recognition of " << filename << std::endl;
 				std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\recognize\\" + filename));
 				splitLicensePlate* makeSplit = new splitLicensePlate(*image);
 				std::vector<ImageGray> characters = makeSplit->ProcessImage();
@@ -109,11 +109,11 @@ int main(short argc, char *argv[])
 					std::cout << yolo << std::endl;
 					++number;
 				}*/
-				//std::cout << "LICENSE PLATE: " << kenteken << std::endl;
+				std::cout << "LICENSE PLATE: " << kenteken << std::endl;
 				delete makeSplit;
 				if (antwoord != kenteken) {
 					failCount++;
-					//std::cout << "MISMATCH" << std::endl;
+					std::cout << "MISMATCH" << std::endl;
 					Beep(3000, 200);
 				}
 				else {
@@ -123,7 +123,9 @@ int main(short argc, char *argv[])
 		}
 		closedir(pDIR);
 	}
-	//std::cout << "RESULT: success: " << successCount << " failed: " << failCount << std::endl;
+	std::cout << "RESULT: success: " << successCount << " failed: " << failCount << std::endl;
+	char bah;
+	std::cin >> bah;
 	return 0;
 }
 
