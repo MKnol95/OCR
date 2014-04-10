@@ -13,7 +13,7 @@ using namespace ImageLib;
 //! @authors Rick van der Paauw, Marco Knol, Melvin van den Berg and Michael Pieneman
 //! This class contains splitting of the characters and the creation of the histograms. 
 //! This histograms are used for character recognition.
-class splitLicensePlate
+class SplitLicensePlate
 {
 private:
 	//! @var image Unique pointer to the real address (reference) of image.
@@ -31,7 +31,7 @@ public:
 	//
 	//! @param img is a unique pointer to the image.
 	//! The splitLicensePlate-object will get the width and height of the given image.
-	splitLicensePlate(ImageGray& img);
+	SplitLicensePlate(ImageGray& img);
 	//! Process the splitLicensePlate-object
 	//
 	//! This function cuts the characters out of the image and fills the csvData with the number of black pixels. 

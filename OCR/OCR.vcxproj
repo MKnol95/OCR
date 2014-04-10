@@ -86,24 +86,24 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="charChecker.h" />
+    <ClInclude Include="CharChecker.h" />
     <ClInclude Include="dirent.h" />
     <ClInclude Include="imageLib\Image.h" />
     <ClInclude Include="imageLib\ImageGray.h" />
     <ClInclude Include="imageLib\ImageLoader.h" />
     <ClInclude Include="imageLib\ImageRGB.h" />
     <ClInclude Include="OCRPatternMatching.h" />
-    <ClInclude Include="splitLicensePlate.h" />
+    <ClInclude Include="SplitLicensePlate.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="charChecker.cpp" />
+    <ClCompile Include="CharChecker.cpp" />
     <ClCompile Include="imageLib\Image.cpp" />
     <ClCompile Include="imageLib\ImageGray.cpp" />
     <ClCompile Include="imageLib\ImageLoader.cpp" />
     <ClCompile Include="imageLib\ImageRGB.cpp" />
     <ClCompile Include="OCR.cpp" />
     <ClCompile Include="OCRPatternMatching.cpp" />
-    <ClCompile Include="splitLicensePlate.cpp" />
+    <ClCompile Include="SplitLicensePlate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

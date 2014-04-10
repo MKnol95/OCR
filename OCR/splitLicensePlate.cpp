@@ -1,4 +1,4 @@
-#include "splitLicensePlate.h"
+#include "SplitLicensePlate.h"
 #include "OCR.h"
 #include "imageLib\ImageGray.h"
 #include <corona.h>
@@ -14,7 +14,7 @@
 
 using namespace ImageLib;
 
-splitLicensePlate::splitLicensePlate(ImageGray& img) : image(img)
+SplitLicensePlate::SplitLicensePlate(ImageGray& img) : image(img)
 {
 	//image = std::move(img);
 	width = img.width();
@@ -22,7 +22,7 @@ splitLicensePlate::splitLicensePlate(ImageGray& img) : image(img)
 	imageSurface = width * height;
 }
 
-std::vector<ImageGray> splitLicensePlate::ProcessImage()
+std::vector<ImageGray> SplitLicensePlate::ProcessImage()
 {
 	std::vector<ImageGray> splitimage;
 
@@ -30,7 +30,7 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 	int borderLeft[findArea];
 	int borderRight[findArea];
 	int countL = 0, countR = 0, areaFound = 0, above = 0, under = 0;
-	splitLicensePlate::csvVertical();
+	SplitLicensePlate::csvVertical();
 	for (int i = 1; i < height; i++){
 		if (csvDataV[i] == 0){
 			continue;
@@ -49,7 +49,7 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 			}
 		}
 	}
-	splitLicensePlate::csvHorizontal();
+	SplitLicensePlate::csvHorizontal();
 	for (int i = 0; i < width; i++){
 		if (csvDataH[i] == 0) {
 			continue;
@@ -123,7 +123,7 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 	return splitimage;
 }
 
-void splitLicensePlate::WriteCSV(int x, int y)
+void SplitLicensePlate::WriteCSV(int x, int y)
 {
 	std::ofstream CSVWriter;
 	if (x == 0 && y == 0){
@@ -162,7 +162,7 @@ void splitLicensePlate::WriteCSV(int x, int y)
 	}
 }
 
-std::vector<int> splitLicensePlate::csvHorizontal(){
+std::vector<int> SplitLicensePlate::csvHorizontal(){
 	csvDataH = std::vector<int>(width);
 	for (int i = 0; i < width; i++){
 		csvDataH[i] = 0;
@@ -178,7 +178,7 @@ std::vector<int> splitLicensePlate::csvHorizontal(){
 	return csvDataH;
 }
 
-std::vector<int> splitLicensePlate::csvVertical(){
+std::vector<int> SplitLicensePlate::csvVertical(){
 	csvDataV = std::vector<int>(height);
 	for (int i = 0; i < height; i++){
 		csvDataV[i] = 0;

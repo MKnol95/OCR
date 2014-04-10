@@ -18,9 +18,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="splitLicensePlate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="imageLib\Image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -33,21 +30,21 @@
     <ClInclude Include="imageLib\ImageRGB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="charChecker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OCRPatternMatching.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dirent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SplitLicensePlate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CharChecker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OCR.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="splitLicensePlate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="imageLib\Image.cpp">
@@ -62,10 +59,13 @@
     <ClCompile Include="imageLib\ImageRGB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="charChecker.cpp">
+    <ClCompile Include="OCRPatternMatching.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OCRPatternMatching.cpp">
+    <ClCompile Include="CharChecker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SplitLicensePlate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
