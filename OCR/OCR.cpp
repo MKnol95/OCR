@@ -94,8 +94,8 @@ int main(short argc, char *argv[])
 		closedir(pDIR);
 	}
 	std::cout << "RESULT: success: " << successCount << " failed: " << failCount << std::endl;
-	int bla;
-	std::cin >> bla;
+	//int bla;
+	//std::cin >> bla;
 	return 0;
 }
 

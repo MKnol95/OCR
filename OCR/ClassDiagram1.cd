@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CharChecker" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQUAAAAAAAQAIAAAIAAIAAAAAgCAAAAAAAAAAAAA=</HashCode>
+      <FileName>CharChecker.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OCRPatternMatching" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAABAggAEAAAAAgAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>OCRPatternMatching.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SplitLicensePlate" Collapsed="true">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQABBIAAAAQQAQAAAAAAAEAAAAIAAABCAAAAACAA=</HashCode>
+      <FileName>SplitLicensePlate.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ImageLib::Image" Collapsed="true">
+    <Position X="1.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIACAAAAAARgQIAAAAAQAAAAABIAAAAQAgAAAAA=</HashCode>
+      <FileName>imageLib\Image.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ImageLib::ImageGray" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAgAAAAAAAAAAAAgAAQAAAAAAA=</HashCode>
+      <FileName>imageLib\ImageGray.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ImageLib::ImageRGB" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAgAAQAAACAAA=</HashCode>
+      <FileName>imageLib\ImageRGB.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="_wdirent" Collapsed="true">
+    <Position X="7" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgQAAAAAAAAAAAAAAQAAAAAAAAAAAAAAABAEA=</HashCode>
+      <FileName>dirent.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="_WDIR" Collapsed="true">
+    <Position X="5.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAACAAAAACAAAAAAAAAAAAAAAAAAAAASAAAAAAA=</HashCode>
+      <FileName>dirent.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="dirent" Collapsed="true">
+    <Position X="5.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgQAAAAAAAAAAAAAAQAAAAAAAAAAAAAAABAEA=</HashCode>
+      <FileName>dirent.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="DIR" Collapsed="true">
+    <Position X="8.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>dirent.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="ImageLib::Rgb&lt;T&gt;" Collapsed="true">
+    <Position X="7" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAIAAAIAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>imageLib\ImageRGB.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="ImageLib::Channel" Collapsed="true">
+    <Position X="5.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>imageLib\ImageRGB.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

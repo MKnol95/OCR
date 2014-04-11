@@ -10,6 +10,14 @@
 
 using namespace ImageLib;
 
+SplitLicensePlate::SplitLicensePlate(ImageGray& img) : image(img)
+{
+	//image = std::move(img);
+	width = img.width();
+	height = img.height();
+	imageSurface = width * height;
+}
+
 inline void SplitLicensePlate::RemoveLicenseplateBorder() {
 	unsigned int heightLimit = image.height() / 2;
 	unsigned int widthLimit = image.width() / 2;
@@ -93,14 +101,6 @@ inline void SplitLicensePlate::RemoveLicenseplateBorder() {
 	}
 }
 
-SplitLicensePlate::SplitLicensePlate(ImageGray& img) : image(img)
-{
-	//image = std::move(img);
-	width = img.width();
-	height = img.height();
-	imageSurface = width * height;
-}
-
 std::vector<ImageGray> SplitLicensePlate::SplitImage()
 {
 	RemoveLicenseplateBorder();
@@ -147,7 +147,7 @@ std::vector<ImageGray> SplitLicensePlate::SplitImage()
 					countL++;
 					continue;
 				}
-				else if (csvDataH[i + 1] == 0 && csvDataH[i - 1] != 0) { // vergelijking mer de pixel erna
+				else if (csvDataH[i + 1] == 0 && csvDataH[i - 1] != 0) { // vergelijking met de pixel erna
 					borderRight[countR] = i + 1;
 					countR++;
 					areaFound++;
