@@ -27,7 +27,7 @@ OCRPatternMatching::OCRPatternMatching()
 	lastDetection = LAST_FOUND_STRIPE;
 	referenceImages = std::vector<std::unique_ptr<ImageGray>>(NUMBER_OF_CHARACTERS);
 	for (unsigned char i = 0; i < NUMBER_OF_CHARACTERS; i++) {
-		referenceImages[i] = loadImg("C:\\Images\\font\\" + std::to_string(i) + ".png");
+		referenceImages[i] = loadImg(font_directory + std::to_string(i) + ".png");
 	}
 }
 
@@ -45,7 +45,7 @@ std::string OCRPatternMatching::RecognizeLicenseplate(std::vector<ImageGray>& ch
 			std::cout << std::endl;
 			break;
 		}
-		//std::cout << recognizedCharacter << std::endl;
+		std::cout << recognizedCharacter << std::endl;
 		if (kenteken.length() > 0) {
 			unsigned char prevChar = kenteken.at(kenteken.length() - 1);
 			if (prevChar >= '0' && prevChar <= '9' && recognizedCharacter >= 'A' && recognizedCharacter <= 'Z' && recognizedCharacter != 'O' && recognizedCharacter != 'Q')
@@ -169,6 +169,6 @@ inline unsigned char OCRPatternMatching::Recognize(ImageGray& character) {
 			}
 		}
 	}
-	//std::cout << std::setprecision(4) <<std::fixed << highestValue << "%\t";
+	std::cout << std::setprecision(4) <<std::fixed << highestValue << "%\t";
 	return output;
 }

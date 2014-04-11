@@ -13,7 +13,7 @@ using namespace ImageLib;
 //! @authors Rick van der Paauw, Marco Knol, Melvin van den Berg and Michael Pieneman
 //! This class contains splitting of the characters and the creation of the histograms. 
 //! This histograms are used for character recognition.
-class splitLicensePlate
+class SplitLicensePlate
 {
 private:
 	//! @var image Unique pointer to the real address (reference) of image.
@@ -26,16 +26,18 @@ private:
 	std::vector<int> csvDataH;
 	//! @var csvData is the vector of the csvData vertical.
 	std::vector<int> csvDataV;
+	//! Removes license plate border and if possible 'NL' characters
+	inline void RemoveLicenseplateBorder();
 public:
 	//! SplitLicensePlate constructor
 	//
 	//! @param img is a unique pointer to the image.
 	//! The splitLicensePlate-object will get the width and height of the given image.
-	splitLicensePlate(ImageGray& img);
+	SplitLicensePlate(ImageGray& img);
 	//! Process the splitLicensePlate-object
 	//
 	//! This function cuts the characters out of the image and fills the csvData with the number of black pixels. 
-	std::vector<ImageGray> ProcessImage();
+	std::vector<ImageGray> SplitImage();
 	//! Write CSV 
 	//
 	//! @param x is the csv-genre: total horizontal (0), horizontal (1) or vertical (2). 
@@ -45,10 +47,10 @@ public:
 	//! horizontal CSV fill 
 	//
 	//! Fill the CSV-data with the number of black pixels on the horizontal line (columns).
-	std::vector<int> csvHorizontal();
+	inline std::vector<int> csvHorizontal();
 	//! vertical CSV fill 
 	//
 	//! Fill the CSV-data with the number of black pixels on the vertical line (rows).
-	std::vector<int> csvVertical();
+	inline std::vector<int> csvVertical();
 };
 

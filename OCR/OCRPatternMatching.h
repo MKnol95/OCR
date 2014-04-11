@@ -1,7 +1,6 @@
 #pragma once
 #include "imageLib\ImageGray.h"
 #include <memory>
-#include <corona.h>
 #define NUMBER_OF_CHARACTERS 37
 #define FIND_CHAR_PERCENTAGE 99
 #define	CHAR_INDEX_SIZE	26
@@ -23,6 +22,7 @@ using namespace ImageLib;
 class OCRPatternMatching
 {
 private:
+	const std::string font_directory = "C:\\Images\\font\\";
 	//! @var lastDetection stores the previous detected character.
 	unsigned char lastDetection;
 	//! @var referenceImages stores the samples of all the font characters. 
@@ -33,12 +33,12 @@ private:
 	//! @param newWidth is the width of the new grayImage.
 	//! @param newHeight is the height of new grayImage.
 	//! This function resamples the input grayImage to a new grayImage with the given width and height. 
-	ImageGray Resample(ImageGray& input, short newWidth, short newHeight);
+	inline ImageGray Resample(ImageGray& input, short newWidth, short newHeight);
 	//! Recognize
 	//
 	//! @param character is the imageGray with the character that has to be detected (recognized).
 	//! This function recognizes the character out of the image. 
-	unsigned char Recognize(ImageGray& character);
+	inline unsigned char Recognize(ImageGray& character);
 public:
 	//! Constructor OCR Pattern Matching
 	//

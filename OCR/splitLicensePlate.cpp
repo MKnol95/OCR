@@ -1,20 +1,99 @@
-#include "splitLicensePlate.h"
-#include "OCR.h"
+#include "SplitLicensePlate.h"
 #include "imageLib\ImageGray.h"
-#include <corona.h>
 #include <vector>
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <ostream>
-#include "GlobalDefines.h"
 #include <memory.h>
-#define NORMALIZED_WIDTH 15
-#define NORMALIZED_HEIGHT 30
+#define MINIMAL_CHARACTER_WIDTH 5
 
 using namespace ImageLib;
 
-splitLicensePlate::splitLicensePlate(ImageGray& img) : image(img)
+inline void SplitLicensePlate::RemoveLicenseplateBorder() {
+	unsigned int heightLimit = image.height() / 2;
+	unsigned int widthLimit = image.width() / 2;
+	unsigned int leastPixels = 99999;
+	unsigned int leastYTop = 0;
+	for (unsigned int y = 0; y < heightLimit; y++) {
+		unsigned int count = 0;
+		for (unsigned int x = 0; x < image.width(); x++) {
+			if (image.at(x, y) == 0)
+				count++;
+		}
+		if (count < leastPixels)
+		{
+			leastPixels = count;
+			leastYTop = y;
+		}
+	}
+	leastPixels = 99999;
+	unsigned int leastYBottom = 0;
+	for (unsigned int y = image.height() - 1; y > heightLimit; y--) {
+		unsigned int count = 0;
+		for (unsigned int x = 0; x < image.width(); x++) {
+			if (image.at(x, y) == 0)
+				count++;
+		}
+		if (count < leastPixels)
+		{
+			leastPixels = count;
+			leastYBottom = y;
+		}
+	}
+	//clean top and bottom stripe
+	for (unsigned int y = 0; y < leastYTop; y++) {
+		for (unsigned int x = 0; x < image.width(); x++) {
+			image.at(x, y) = 255;
+		}
+	}
+	for (unsigned int y = image.height() - 1; y > leastYBottom; y--) {
+		for (unsigned int x = 0; x < image.width(); x++) {
+			image.at(x, y) = 255;
+		}
+	}
+	leastPixels = 99999;
+	unsigned int leastXLeft = 0;
+	for (unsigned int x = 0; x < widthLimit; x++) {
+		unsigned int count = 0;
+		for (unsigned int y = 0; y < image.height(); y++) {
+			if (image.at(x, y) == 0)
+				count++;
+		}
+		if (count < leastPixels)
+		{
+			leastPixels = count;
+			leastXLeft = x;
+		}
+	}
+	leastPixels = 99999;
+	unsigned int leastXRight = 0;
+	for (unsigned int x = image.width() - 1; x > widthLimit; x--) {
+		unsigned int count = 0;
+		for (unsigned int y = 0; y < image.height(); y++) {
+			if (image.at(x, y) == 0)
+				count++;
+		}
+		if (count < leastPixels)
+		{
+			leastPixels = count;
+			leastXRight = x;
+		}
+	}
+	//clean left and right stripe
+	for (unsigned int x = 0; x < leastXLeft; x++) {
+		for (unsigned int y = 0; y < image.height(); y++) {
+			image.at(x, y) = 255;
+		}
+	}
+	for (unsigned int x = image.width() - 1; x > leastXRight; x--) {
+		for (unsigned int y = 0; y < image.height(); y++) {
+			image.at(x, y) = 255;
+		}
+	}
+}
+
+SplitLicensePlate::SplitLicensePlate(ImageGray& img) : image(img)
 {
 	//image = std::move(img);
 	width = img.width();
@@ -22,16 +101,17 @@ splitLicensePlate::splitLicensePlate(ImageGray& img) : image(img)
 	imageSurface = width * height;
 }
 
-std::vector<ImageGray> splitLicensePlate::ProcessImage()
+std::vector<ImageGray> SplitLicensePlate::SplitImage()
 {
+	RemoveLicenseplateBorder();
 	std::vector<ImageGray> splitimage;
 
-	const int findArea = 40;/////// 8 karakters + 12 vlekkeen op het kenteken die los van de characters zitten is er mogelijk voor worst case.
+	const int findArea = 20;/////// 8 karakters + 12 vlekkeen op het kenteken die los van de characters zitten is er mogelijk voor worst case.
 	int borderLeft[findArea];
 	int borderRight[findArea];
-	int countL = 0, countR = 0, areaFound = 0, above = 0, under = 0;
-	splitLicensePlate::csvVertical();
-	for (int i = 1; i < height; i++){
+	short countL = 0, countR = 0, areaFound = 0, above = 0, under = 0;
+	csvVertical();
+	for (short i = 1; i < height; i++){
 		if (csvDataV[i] == 0){
 			continue;
 		}
@@ -41,7 +121,7 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 				above = i;
 				continue;
 			}
-			else if(i+1 < height){
+			else if (i + 1 < height){
 				if (csvDataV[i + 1] == 0){
 					under = i;
 					break;
@@ -49,8 +129,8 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 			}
 		}
 	}
-	splitLicensePlate::csvHorizontal();
-	for (int i = 0; i < width; i++){
+	csvHorizontal();
+	for (short i = 0; i < width; i++){
 		if (csvDataH[i] == 0) {
 			continue;
 		}
@@ -60,30 +140,29 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 			countL++;
 		}
 		else {
-			if (csvDataH[i - 1] == 0) { // vergelijking met de pixel ervoor.
-				borderLeft[countL] = i;
-				countL++;
-				continue;
-			}
-			if (i != (width - 1)) { //not last index
-				if (csvDataH[i + 1] == 0) { // vergelijking mer de pixel erna
-					if (i < width){
-						borderRight[countR] = i + 1;
-						countR++;
-						areaFound++;
-					}
-					else if (i == width)
-					{
-						borderRight[countR] = i;
-						areaFound++;
-					}
+			
+			if (i < (width - 1)) { //not last index
+				if (csvDataH[i - 1] == 0 && csvDataH[i + 1] != 0) { // vergelijking met de pixel ervoor. zorg dat het niet 1 pixel breed is (ruis)
+					borderLeft[countL] = i;
+					countL++;
+					continue;
+				}
+				else if (csvDataH[i + 1] == 0 && csvDataH[i - 1] != 0) { // vergelijking mer de pixel erna
+					borderRight[countR] = i + 1;
+					countR++;
+					areaFound++;
 				}
 			}
 
 		}
 	}
 	for (int z = 0; z < areaFound; z++){
+		if (under == 0)
+			under = image.height() - 1;
 		int splitWidth = borderRight[z] - borderLeft[z];
+		//check character width
+		if (splitWidth <= MINIMAL_CHARACTER_WIDTH)
+			continue;
 		int splitHeight = under - above;
 		int shiftUp = 0;
 		//int shiftHeight = under;
@@ -123,7 +202,7 @@ std::vector<ImageGray> splitLicensePlate::ProcessImage()
 	return splitimage;
 }
 
-void splitLicensePlate::WriteCSV(int x, int y)
+void SplitLicensePlate::WriteCSV(int x, int y)
 {
 	std::ofstream CSVWriter;
 	if (x == 0 && y == 0){
@@ -162,7 +241,7 @@ void splitLicensePlate::WriteCSV(int x, int y)
 	}
 }
 
-std::vector<int> splitLicensePlate::csvHorizontal(){
+std::vector<int> SplitLicensePlate::csvHorizontal(){
 	csvDataH = std::vector<int>(width);
 	for (int i = 0; i < width; i++){
 		csvDataH[i] = 0;
@@ -178,7 +257,7 @@ std::vector<int> splitLicensePlate::csvHorizontal(){
 	return csvDataH;
 }
 
-std::vector<int> splitLicensePlate::csvVertical(){
+std::vector<int> SplitLicensePlate::csvVertical(){
 	csvDataV = std::vector<int>(height);
 	for (int i = 0; i < height; i++){
 		csvDataV[i] = 0;
