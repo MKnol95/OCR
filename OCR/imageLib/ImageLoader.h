@@ -6,5 +6,6 @@
 
 namespace ImageLib
 {
-	std::unique_ptr<ImageGray> loadImg(std::string filename);
+	//std::unique_ptr<ImageGray> loadImg(std::string filename);
+	std::unique_ptr<ImageRGB> loadImg(std::string filename);
 }

@@ -26,7 +26,7 @@ private:
 	//! @var lastDetection stores the previous detected character.
 	unsigned char lastDetection;
 	//! @var referenceImages stores the samples of all the font characters. 
-	std::vector<std::unique_ptr<ImageGray>> referenceImages;
+	std::vector<ImageGray> referenceImages;
 	//! Resample
 	//
 	//! @param input contains the input grayImage.

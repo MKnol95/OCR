@@ -33,14 +33,20 @@ int main(short argc, char *argv[])
 					continue;
 				std::string antwoord = filename.substr(0, 8);
 				std::cout << "Start recognition of " << filename << std::endl;
-				std::unique_ptr<ImageGray> image(loadImg("C:\\Images\\recognize\\" + filename));
+				std::unique_ptr<ImageRGB> rgb(loadImg("C:\\Images\\recognize\\" + filename));
+				std::unique_ptr<ImageGray> image = std::make_unique<ImageGray>(rgb->width(), rgb->height());
+				for (unsigned int x = 0; x < rgb->width(); x++) {
+					for (unsigned int y = 0; y < rgb->height(); y++) {
+						image->at(x, y) = (unsigned char)((int)(rgb->at(x, y, Channel::Red) + rgb->at(x, y, Channel::Green) + rgb->at(x, y, Channel::Blue)) / 3);
+					}
+				}
 				SplitLicensePlate* makeSplit = new SplitLicensePlate(*image);
 
 				/*/TEST SAve
 				corona::Image* destination = corona::CreateImage(image->width(), image->height(), corona::PF_R8G8B8);
 				unsigned char * pixels = (unsigned char*)destination->getPixels();
 				//unsigned char * pixels = new unsigned char[character.width() * character.height() * 3];
-				int count = 0;
+				int count = 0;%
 				for (std::vector<unsigned char>::iterator it = image->begin(); it != image->end(); ++it) {
 					pixels[count] = *it;
 					pixels[count + 1] = *it;
