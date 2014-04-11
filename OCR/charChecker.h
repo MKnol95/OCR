@@ -1,6 +1,5 @@
 #pragma once
 #include <corona.h>
-#include "GlobalDefines.h"
 #include <string>
 #include <fstream>
 #include <memory>

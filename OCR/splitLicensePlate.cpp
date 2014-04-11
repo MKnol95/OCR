@@ -248,7 +248,7 @@ std::vector<int> SplitLicensePlate::csvHorizontal(){
 	}
 	for (int i = 0; i < width; i++){
 		for (int j = 0; j < height; j++){
-			byte whiteOrBlack = image.at(i, j);
+			unsigned char whiteOrBlack = image.at(i, j);
 			if (whiteOrBlack == 0){
 				csvDataH[i] += 1;
 			}
@@ -264,7 +264,7 @@ std::vector<int> SplitLicensePlate::csvVertical(){
 	}
 	for (int i = 0; i < height; i++){
 		for (int j = 0; j < width; j++){
-			byte whiteOrBlack = image.at(j, i);
+			unsigned char whiteOrBlack = image.at(j, i);
 			if (whiteOrBlack == 0){
 				csvDataV[i] += 1;
 			}
