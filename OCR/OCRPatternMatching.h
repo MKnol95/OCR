@@ -23,7 +23,7 @@ class OCRPatternMatching
 {
 private:
 	//! @var font_directory containing the path to the template fonts location.
-	const std::string font_directory = "C:\\Images\\font\\";
+	const std::string font_directory = "font//";
 	//! @var lastDetection stores the previous detected character.
 	unsigned char lastDetection;
 	//! @var referenceImages stores the samples of all the font characters. 

@@ -19,12 +19,26 @@ using namespace ImageLib;
 
 int main(short argc, char *argv[])
 {
+	std::string recognizeDirectory;
+	std::string tempDirectory = "";
+	if (argc > 1)
+	{
+		recognizeDirectory = argv[1];
+		if (argc > 2) {
+			tempDirectory = argv[2];
+		}
+	}
+	else
+	{
+		std::cout << "Missing command line arguments. Possible arguments are:" << std::endl << "OCR.exe <path to license plates> [path to temporary outputs]" << std::endl;
+	}
+
 	unsigned short successCount = 0;
 	unsigned short failCount = 0;
-	//unsigned short licCount = 0;
+	unsigned short licCount = 0;
 	DIR *pDIR;
 	struct dirent *entry;
-	if (pDIR = opendir("C:\\Images\\recognize\\")){
+	if (pDIR = opendir(recognizeDirectory.c_str())){
 		OCRPatternMatching matching;
 		while (entry = readdir(pDIR)){
 			if (strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0) {
@@ -33,7 +47,7 @@ int main(short argc, char *argv[])
 					continue;
 				std::string antwoord = filename.substr(0, 8);
 				std::cout << "Start recognition of " << filename << std::endl;
-				std::unique_ptr<ImageRGB> rgb(loadImg("C:\\Images\\recognize\\" + filename));
+				std::unique_ptr<ImageRGB> rgb(loadImg(recognizeDirectory + filename));
 				std::unique_ptr<ImageGray> image = std::make_unique<ImageGray>(rgb->width(), rgb->height());
 				for (unsigned int x = 0; x < rgb->width(); x++) {
 					for (unsigned int y = 0; y < rgb->height(); y++) {
@@ -42,45 +56,47 @@ int main(short argc, char *argv[])
 				}
 				SplitLicensePlate* makeSplit = new SplitLicensePlate(*image);
 
-				/*/TEST SAve
-				corona::Image* destination = corona::CreateImage(image->width(), image->height(), corona::PF_R8G8B8);
-				unsigned char * pixels = (unsigned char*)destination->getPixels();
-				//unsigned char * pixels = new unsigned char[character.width() * character.height() * 3];
-				int count = 0;
-				for (std::vector<unsigned char>::iterator it = image->begin(); it != image->end(); ++it) {
-					pixels[count] = *it;
-					pixels[count + 1] = *it;
-					pixels[count + 2] = *it;
-					count += 3;
-				}
-				std::string path = "C:\\Images\\";
-				path += std::to_string(licCount);
-				path += ".png";
-				corona::SaveImage(path.c_str(), corona::FF_PNG, destination);
-				*/
-
-				std::vector<ImageGray> characters = makeSplit->SplitImage();
-				/*int number = 0;
-				for (ImageGray &character : characters) {
-					corona::Image* destination = corona::CreateImage(character.width(), character.height(), corona::PF_R8G8B8);
+				//TEST SAve
+				if (tempDirectory != "") {
+					corona::Image* destination = corona::CreateImage(image->width(), image->height(), corona::PF_R8G8B8);
 					unsigned char * pixels = (unsigned char*)destination->getPixels();
 					//unsigned char * pixels = new unsigned char[character.width() * character.height() * 3];
 					int count = 0;
-						for (std::vector<unsigned char>::iterator it = character.begin(); it != character.end(); ++it) {
+					for (std::vector<unsigned char>::iterator it = image->begin(); it != image->end(); ++it) {
 						pixels[count] = *it;
 						pixels[count + 1] = *it;
 						pixels[count + 2] = *it;
 						count += 3;
 					}
-					std::string path = "C:\\Images\\lic";
+					std::string path = tempDirectory;
 					path += std::to_string(licCount);
-					path += "test";
-					path += std::to_string(number);
 					path += ".png";
 					corona::SaveImage(path.c_str(), corona::FF_PNG, destination);
-					++number;
 				}
-				*/
+
+				std::vector<ImageGray> characters = makeSplit->SplitImage();
+				if (tempDirectory != "") {
+					int number = 0;
+					for (ImageGray &character : characters) {
+						corona::Image* destination = corona::CreateImage(character.width(), character.height(), corona::PF_R8G8B8);
+						unsigned char * pixels = (unsigned char*)destination->getPixels();
+						//unsigned char * pixels = new unsigned char[character.width() * character.height() * 3];
+						int count = 0;
+						for (std::vector<unsigned char>::iterator it = character.begin(); it != character.end(); ++it) {
+							pixels[count] = *it;
+							pixels[count + 1] = *it;
+							pixels[count + 2] = *it;
+							count += 3;
+						}
+						std::string path = tempDirectory + "lic";
+						path += std::to_string(licCount);
+						path += "test";
+						path += std::to_string(number);
+						path += ".png";
+						corona::SaveImage(path.c_str(), corona::FF_PNG, destination);
+						++number;
+					}
+				}
 
 				//char recognition starts here
 				std::string kenteken = matching.RecognizeLicenseplate(characters);
@@ -94,7 +110,7 @@ int main(short argc, char *argv[])
 				else {
 					successCount++;
 				}
-				//licCount++;
+				licCount++;
 			}
 		}
 		closedir(pDIR);
