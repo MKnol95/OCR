@@ -34,6 +34,7 @@ public:
 	SplitLicensePlate(ImageGray& img);
 	//! Process the splitLicensePlate-object
 	//
+	//! @return A vector containing a set a ImageGray characters.
 	//! This function cuts the characters out of the image and fills the csvData with the number of black pixels. 
 	std::vector<ImageGray> SplitImage();
 	//! Write CSV 
@@ -44,10 +45,12 @@ public:
 	void WriteCSV(int x,int y);
 	//! horizontal CSV fill 
 	//
+	//! @return A vector containing a set of integers with the amount of pixels in the line.
 	//! Fill the CSV-data with the number of black pixels on the horizontal line (columns).
 	inline std::vector<int> csvHorizontal();
 	//! vertical CSV fill 
 	//
+	//! @return A vector containing a set of integers with the amount of pixels in the line.
 	//! Fill the CSV-data with the number of black pixels on the vertical line (rows).
 	inline std::vector<int> csvVertical();
 };

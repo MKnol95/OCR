@@ -112,10 +112,6 @@ CharChecker::CharChecker(std::vector<int>& csvDataInputH, int height, std::vecto
 
 }
 
-char& CharChecker::getChar(){
-	return Char;
-}
-
 // linear interpolate x in an array
 // inline
 int interp1(float x, std::vector<int>& a, int n)

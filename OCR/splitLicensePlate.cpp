@@ -103,7 +103,7 @@ inline void SplitLicensePlate::RemoveLicenseplateBorder() {
 
 std::vector<ImageGray> SplitLicensePlate::SplitImage()
 {
-	RemoveLicenseplateBorder();
+	//RemoveLicenseplateBorder();
 	std::vector<ImageGray> splitimage;
 
 	const int findArea = 20;/////// 8 karakters + 12 vlekkeen op het kenteken die los van de characters zitten is er mogelijk voor worst case.
@@ -118,12 +118,12 @@ std::vector<ImageGray> SplitLicensePlate::SplitImage()
 		else{
 			if (csvDataV[i - 1] == 0) // vergelijking met de pixel ervoor.
 			{
-				above = i;
+				above = i -  1;
 				continue;
 			}
 			else if (i + 1 < height){
 				if (csvDataV[i + 1] == 0){
-					under = i;
+					under = i + 1;
 					break;
 				}
 			}
@@ -161,8 +161,9 @@ std::vector<ImageGray> SplitLicensePlate::SplitImage()
 			under = image.height() - 1;
 		int splitWidth = borderRight[z] - borderLeft[z];
 		//check character width
-		if (splitWidth <= MINIMAL_CHARACTER_WIDTH)
-			continue;
+		if (splitWidth < MINIMAL_CHARACTER_WIDTH) {
+			//continue;
+		}
 		int splitHeight = under - above;
 		int shiftUp = 0;
 		//int shiftHeight = under;

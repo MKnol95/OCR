@@ -50,12 +50,9 @@ public:
 	//! The constructor sets the horizontal variable on true or false and clears the scores. 
 	//! Also the input histograms are scaled and interpolated.
 	CharChecker(std::vector<int>& csvDataInputH, int height, std::vector<int>& csvDataInputV, bool hor);
-	//! GetChar
-	//
-	//! Returns (if the process() has runned) the character with the lowest score. 
-	char& getChar();
 	//! Execute the char checking process.
 	//
+	//! @return Char containing the recognized character.
 	//! Perform the needed actions to find the best matching histogram and determine the character.
 	char process();
 };

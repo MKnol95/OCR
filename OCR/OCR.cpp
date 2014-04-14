@@ -46,7 +46,7 @@ int main(short argc, char *argv[])
 				corona::Image* destination = corona::CreateImage(image->width(), image->height(), corona::PF_R8G8B8);
 				unsigned char * pixels = (unsigned char*)destination->getPixels();
 				//unsigned char * pixels = new unsigned char[character.width() * character.height() * 3];
-				int count = 0;%
+				int count = 0;
 				for (std::vector<unsigned char>::iterator it = image->begin(); it != image->end(); ++it) {
 					pixels[count] = *it;
 					pixels[count + 1] = *it;
@@ -100,9 +100,7 @@ int main(short argc, char *argv[])
 		closedir(pDIR);
 	}
 	std::cout << "RESULT: success: " << successCount << " failed: " << failCount << std::endl;
-	//int bla;
-	//std::cin >> bla;
+	int bla;
+	std::cin >> bla;
 	return 0;
 }
-
-

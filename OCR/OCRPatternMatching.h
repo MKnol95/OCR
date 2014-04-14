@@ -22,6 +22,7 @@ using namespace ImageLib;
 class OCRPatternMatching
 {
 private:
+	//! @var font_directory containing the path to the template fonts location.
 	const std::string font_directory = "C:\\Images\\font\\";
 	//! @var lastDetection stores the previous detected character.
 	unsigned char lastDetection;
@@ -32,11 +33,13 @@ private:
 	//! @param input contains the input grayImage.
 	//! @param newWidth is the width of the new grayImage.
 	//! @param newHeight is the height of new grayImage.
+	//! @return ImageGray The resized image.
 	//! This function resamples the input grayImage to a new grayImage with the given width and height. 
 	inline ImageGray Resample(ImageGray& input, short newWidth, short newHeight);
 	//! Recognize
 	//
 	//! @param character is the imageGray with the character that has to be detected (recognized).
+	//! @return char The recognized character.
 	//! This function recognizes the character out of the image. 
 	inline unsigned char Recognize(ImageGray& character);
 public:
@@ -46,6 +49,8 @@ public:
 	OCRPatternMatching();
 	//! Recognize License Plate 
 	//
+	//! @param chars The seperate characters to recognize.
+	//! @return A string containing the recognized characters.
 	//! Recognizes the total license plate. 
 	std::string RecognizeLicenseplate(std::vector<ImageGray>& chars);
 };
