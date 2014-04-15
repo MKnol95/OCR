@@ -7,7 +7,7 @@
 #include "SplitLicensePlate.h"
 #include <iostream>
 
-unsigned char compareCharsH[NUMBER_OF_CHARACTERS][HORIZONTAL_HISTOGRAM_SIZE] = {
+const unsigned char compareCharsH[NUMBER_OF_CHARACTERS][HORIZONTAL_HISTOGRAM_SIZE] = {
 	{ 2, 3, 4, 6, 7, 8, 8, 9, 10, 11, 11, 11, 10, 9, 8, 8, 8, 9, 11, 11, 11, 9, 8, 8, 8, 7, 6, 4, 3, 2 },
 	{ 17, 17, 17, 17, 17, 17, 14, 11, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 10, 11, 12, 14, 15, 15, 14, 12, 10, 7, 5 },
 	{ 8, 9, 11, 13, 14, 15, 15, 13, 10, 8, 8, 7, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4, 4 },
@@ -47,7 +47,7 @@ unsigned char compareCharsH[NUMBER_OF_CHARACTERS][HORIZONTAL_HISTOGRAM_SIZE] = {
 	{ 5, 6, 8, 9, 10, 10, 9, 7, 6, 6, 6, 7, 7, 7, 8, 8, 9, 9, 9, 9, 9, 9, 10, 11, 12, 11, 10, 8, 6, 5 }
 };
 	
-unsigned char compareCharsV[NUMBER_OF_CHARACTERS][VERTICAL_HISTOGRAM_SIZE] = {
+const unsigned char compareCharsV[NUMBER_OF_CHARACTERS][VERTICAL_HISTOGRAM_SIZE] = {
 	{ 0, 1, 3, 4, 4, 4, 4, 4, 5, 6, 6, 5, 5, 5, 5, 6, 6, 5, 5, 5, 5, 6, 6, 6, 8, 10, 11, 12, 12, 11, 8, 5, 5, 6, 6, 6 },
 	{ 0, 3, 7, 8, 9, 10, 10, 8, 7, 6, 6, 6, 6, 6, 6, 7, 9, 10, 10, 10, 10, 10, 8, 6, 6, 6, 6, 6, 6, 6, 6, 7, 9, 11, 11, 11 },
 	{ 6, 7, 8, 9, 9, 7, 5, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 6, 8, 8, 8 },
